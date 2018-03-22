@@ -11,6 +11,9 @@ const defaultState = {
         opacity: 1,
         subtitle: 'Basemap',
     },
+    details: {
+        isExpanded: true,
+    },
     mapViews: [],
 };
 
@@ -45,6 +48,18 @@ const basemap = (state, action) => {
                 isVisible: !state.isVisible,
             };
 
+        default:
+            return state;
+    }
+};
+
+const details = (state, action) => {
+    switch (action.type) {
+        case types.DETAILS_TOGGLE_EXPAND:
+            return {
+                ...state,
+                isExpanded: !state.isExpanded,
+            };
         default:
             return state;
     }
@@ -233,6 +248,12 @@ const map = (state = defaultState, action) => {
                 ...state,
                 basemap: basemap(state.basemap, action),
             };
+
+        case types.DETAILS_TOGGLE_EXPAND:
+            return {
+                ...state,
+                details: details(state.details, action),
+                };
 
         case types.LAYER_ADD:
             // Check to only allow external layers to be added once

@@ -13,3 +13,11 @@ export const closeLayersPanel = id => ({
 export const openLayersPanel = () => ({
     type: types.LAYERS_PANEL_OPEN,
 });
+
+export const closeInterpretationsPanel = id => ({
+    type: types.INTERPRETATIONS_PANEL_CLOSE,
+});
+
+export const openInterpretationsPanel = () => ({
+    type: types.INTERPRETATIONS_PANEL_OPEN,
+});
