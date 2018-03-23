@@ -34,12 +34,14 @@ export const getDisplayPropertyUrl = d2 => {
 
 const baseFields = [
     'id',
-    'user',
+    'user[id,displayName]',
     'displayName~rename(name)',
     'longitude',
     'latitude',
     'zoom',
     'basemap',
+    'created',
+    'lastUpdated',
 ];
 
 const analysisFields = async () => {
