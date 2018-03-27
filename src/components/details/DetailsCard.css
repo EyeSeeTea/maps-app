@@ -5,11 +5,19 @@
 }
 
 .DetailsCard-header {
-    height: 56px;
+    height: 32px;
     padding-left: 14px;
     padding-right: 8px;
     margin-right: -8px;
     font-size: 10px;
+}
+
+.DetailsCard-list {
+    margin-left: 10px;
+}
+
+.DetailsCard-list > div {
+    padding: 5px 0px;
 }
 
 .DetailsCard-header span {

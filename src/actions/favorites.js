@@ -5,8 +5,9 @@ export const loadFavorite = id => ({
     id,
 });
 
-export const saveFavorite = () => ({
+export const saveFavorite = (fields) => ({
     type: types.FAVORITE_SAVE,
+    fields,
 });
 
 export const saveNewFavorite = config => ({

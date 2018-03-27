@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import SvgIcon from 'd2-ui/lib/svg-icon/SvgIcon';
 import { grey800 } from 'material-ui/styles/colors';
-import { openInterpretationsPanel, closeInterpretationsPanel } from '../../actions/ui';
-import { HEADER_HEIGHT, INTERPRETATIONS_PANEL_WIDTH } from '../../constants/layout';
+import { openRightPanel, closeRightPanel } from '../../actions/ui';
+import { HEADER_HEIGHT, RIGHT_PANEL_WIDTH } from '../../constants/layout';
 
 const style = {
     position: 'absolute',
     bottom: 15,
-    right: INTERPRETATIONS_PANEL_WIDTH,
+    right: RIGHT_PANEL_WIDTH,
     width: 24,
     height: 40,
     padding: 0,
@@ -21,11 +21,11 @@ const style = {
     zIndex: 1100,
 };
 
-// This expand/collapse toggle is separate from InterpretationsPanel to avoid overflow issue
-const InterpretationsToggle = ({ isOpen, openInterpretationsPanel, closeInterpretationsPanel }) =>
+// This expand/collapse toggle is separate from RightPanel to avoid overflow issue
+const RightPanelToggle = ({ isOpen, openRightPanel, closeRightPanel }) =>
     isOpen ? (
         <IconButton
-            onClick={closeInterpretationsPanel}
+            onClick={closeRightPanel}
             style={style}
             disableTouchRipple={true}
         >
@@ -33,7 +33,7 @@ const InterpretationsToggle = ({ isOpen, openInterpretationsPanel, closeInterpre
         </IconButton>
     ) : (
         <IconButton
-            onClick={openInterpretationsPanel}
+            onClick={openRightPanel}
             style={{ ...style, right: 0 }}
             disableTouchRipple={true}
         >
@@ -41,15 +41,15 @@ const InterpretationsToggle = ({ isOpen, openInterpretationsPanel, closeInterpre
         </IconButton>
     );
 
-InterpretationsToggle.propTypes = {
+RightPanelToggle.propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    openInterpretationsPanel: PropTypes.func.isRequired,
-    closeInterpretationsPanel: PropTypes.func.isRequired,
+    openRightPanel: PropTypes.func.isRequired,
+    closeRightPanel: PropTypes.func.isRequired,
 };
 
 export default connect(
     state => ({
-        isOpen: state.ui.interpretationsPanelOpen,
+        isOpen: state.ui.rightPanelOpen,
     }),
-    { openInterpretationsPanel, closeInterpretationsPanel }
-)(InterpretationsToggle);
+    { openRightPanel, closeRightPanel }
+)(RightPanelToggle);

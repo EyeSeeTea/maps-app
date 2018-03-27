@@ -8,8 +8,8 @@ import AppHeader from './AppHeader';
 import AppMenu from './AppMenu';
 import LayersPanel from '../layers/LayersPanel';
 import LayersToggle from '../layers/LayersToggle';
-import InterpretationsPanel from '../interpretations/InterpretationsPanel';
-import InterpretationsToggle from '../interpretations/InterpretationsToggle';
+import RightPanel from '../right-panel/RightPanel';
+import RightPanelToggle from '../right-panel/RightPanelToggle';
 import Map from '../map/Map';
 import BottomPanel from '../datatable/BottomPanel';
 import LayerEdit from '../edit/LayerEdit';
@@ -41,8 +41,8 @@ class App extends Component {
                         <LayersPanel />
                         <LayersToggle />
                         <Map />
-                        <InterpretationsToggle />
-                        <InterpretationsPanel />
+                        <RightPanelToggle />
+                        <RightPanel />
                         <BottomPanel />
                         <LayerEdit />
                         <ContextMenu />

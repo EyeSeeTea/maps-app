@@ -13,6 +13,8 @@ const defaultState = {
     },
     details: {
         isExpanded: true,
+        isSharingDialogOpen: false,
+        isDetailsDialogOpen: false,
     },
     mapViews: [],
 };
@@ -58,7 +60,49 @@ const details = (state, action) => {
         case types.DETAILS_TOGGLE_EXPAND:
             return {
                 ...state,
-                isExpanded: !state.isExpanded,
+                details: {
+                    ...state.details,
+                    isExpanded: !state.details.isExpanded,
+                },
+            };
+        case types.SHARING_DIALOG_OPEN:
+            return {
+                ...state,
+                details: {
+                    ...state.details,
+                    isSharingDialogOpen: true,
+                },
+            };
+        case types.SHARING_DIALOG_CLOSE:
+            const {publicAccess, userGroupAccesses} = action.payload;
+
+            return {
+                ...state,
+                publicAccess: publicAccess,
+                userGroupAccesses: userGroupAccesses || [],
+                details: {
+                    ...state.details,
+                    isSharingDialogOpen: false,
+                },
+            };
+        case types.DETAILS_DIALOG_OPEN:
+            return {
+                ...state,
+                details: {
+                    ...state.details,
+                    isDetailsDialogOpen: true,
+                },
+            };
+        case types.DETAILS_DIALOG_CLOSE:
+            const newAttributes = action.favorite || {};
+
+            return {
+                ...state,
+                ...newAttributes,
+                details: {
+                    ...state.details,
+                    isDetailsDialogOpen: false,
+                },
             };
         default:
             return state;
@@ -250,10 +294,11 @@ const map = (state = defaultState, action) => {
             };
 
         case types.DETAILS_TOGGLE_EXPAND:
-            return {
-                ...state,
-                details: details(state.details, action),
-                };
+        case types.SHARING_DIALOG_OPEN:
+        case types.SHARING_DIALOG_CLOSE:
+        case types.DETAILS_DIALOG_OPEN:
+        case types.DETAILS_DIALOG_CLOSE:
+            return details(state, action);
 
         case types.LAYER_ADD:
             // Check to only allow external layers to be added once

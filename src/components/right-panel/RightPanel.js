@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Drawer from 'material-ui/Drawer';
-import DetailsCard from './details/DetailsCard';
-import { HEADER_HEIGHT, INTERPRETATIONS_PANEL_WIDTH } from '../../constants/layout';
+import DetailsCard from '../details/DetailsCard';
+import { HEADER_HEIGHT, RIGHT_PANEL_WIDTH } from '../../constants/layout';
 
 const style = {
     top: HEADER_HEIGHT,
@@ -16,25 +16,25 @@ const style = {
     zIndex: 1190,
 };
 
-const InterpretationsPanel = ({
-    interpretationsPanelOpen,
+const RightPanel = ({
+    rightPanelOpen,
 }) => (
     <Drawer
-        open={interpretationsPanelOpen}
+        open={rightPanelOpen}
         openSecondary={true}
         containerStyle={style}
-        width={INTERPRETATIONS_PANEL_WIDTH}
+        width={RIGHT_PANEL_WIDTH}
     >
         <DetailsCard />
     </Drawer>
 );
 
-InterpretationsPanel.propTypes = {
-    interpretationsPanelOpen: PropTypes.bool.isRequired,
+RightPanel.propTypes = {
+    rightPanelOpen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-    interpretationsPanelOpen: state.ui.interpretationsPanelOpen,
+    rightPanelOpen: state.ui.rightPanelOpen,
 });
 
-export default connect(mapStateToProps, {})(InterpretationsPanel);
+export default connect(mapStateToProps, {})(RightPanel);

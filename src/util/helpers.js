@@ -36,12 +36,16 @@ const baseFields = [
     'id',
     'user[id,displayName]',
     'displayName~rename(name)',
+    'description',
     'longitude',
     'latitude',
     'zoom',
     'basemap',
     'created',
     'lastUpdated',
+    'publicAccess',
+    'userGroupAccesses',
+    'access',
 ];
 
 const analysisFields = async () => {
