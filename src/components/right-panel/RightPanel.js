@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Drawer from 'material-ui/Drawer';
 import DetailsCard from '../details/DetailsCard';
+import InterpretationsCard from '../interpretations/InterpretationsCard';
+import RightPanelToggle from './RightPanelToggle';
 import { HEADER_HEIGHT, RIGHT_PANEL_WIDTH } from '../../constants/layout';
 
 const style = {
@@ -17,23 +19,30 @@ const style = {
 };
 
 const RightPanel = ({
+    map,
     rightPanelOpen,
-}) => (
-    <Drawer
-        open={rightPanelOpen}
-        openSecondary={true}
-        containerStyle={style}
-        width={RIGHT_PANEL_WIDTH}
-    >
-        <DetailsCard />
-    </Drawer>
+}) => (map.id ?
+        <div>
+            <RightPanelToggle />
+            <Drawer
+                open={rightPanelOpen}
+                openSecondary={true}
+                containerStyle={style}
+                width={RIGHT_PANEL_WIDTH}
+            >
+                <DetailsCard />
+                <InterpretationsCard />
+            </Drawer>
+        </div> : null
 );
 
 RightPanel.propTypes = {
+    map: PropTypes.object,
     rightPanelOpen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
+    map: state.map,
     rightPanelOpen: state.ui.rightPanelOpen,
 });
 

@@ -15,17 +15,21 @@ const styles = {
 };
 
 class InterpretationDialog extends Component {
-    state = {
-        value: '',
-    };
+    constructor(props) {
+        super(props);
+        this.state = {value: props.interpretation ? props.interpretation.text : ""};
+    }
 
     render() {
-        const { favoriteId, onSave, onClose } = this.props;
+        const { interpretation, favoriteId, onSave, onClose } = this.props;
         const { value } = this.state;
+        const title = interpretation && interpretation.id
+            ? i18next.t('Edit interpretation')
+            : i18next.t('Create interpretation');
 
         return (
             <Dialog
-                title={i18next.t('Write interpretation')}
+                title={title}
                 open={true}
                 onRequestClose={onClose}
                 actions={[

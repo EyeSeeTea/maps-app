@@ -9,7 +9,6 @@ import AppMenu from './AppMenu';
 import LayersPanel from '../layers/LayersPanel';
 import LayersToggle from '../layers/LayersToggle';
 import RightPanel from '../right-panel/RightPanel';
-import RightPanelToggle from '../right-panel/RightPanelToggle';
 import Map from '../map/Map';
 import BottomPanel from '../datatable/BottomPanel';
 import LayerEdit from '../edit/LayerEdit';
@@ -41,7 +40,6 @@ class App extends Component {
                         <LayersPanel />
                         <LayersToggle />
                         <Map />
-                        <RightPanelToggle />
                         <RightPanel />
                         <BottomPanel />
                         <LayerEdit />

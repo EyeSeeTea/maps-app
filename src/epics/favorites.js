@@ -49,7 +49,7 @@ export const saveFavoriteInterpretation = action$ =>
     action$
         .ofType(types.FAVORITE_INTERPRETATION_SAVE)
         .concatMap(({ id, interpretation }) =>
-            apiFetch(`/interpretations/map/${id}`, 'POST', interpretation).then(
+            apiFetch(`/interpretations/map/${id}`, interpretation.id ? 'PUT' : 'POST', interpretation.text).then(
                 response => setMessage(i18next.t(response.message))
             )
         );

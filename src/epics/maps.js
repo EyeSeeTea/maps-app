@@ -6,6 +6,7 @@ import { errorActionCreator } from '../actions/helpers';
 import { mapRequest } from '../util/requests';
 import { setMap } from '../actions/map';
 import { loadLayer } from '../actions/layers';
+import { setInterpretations } from '../actions/interpretations';
 
 // Load one favorite
 export const loadFavorite = action$ =>
@@ -19,6 +20,7 @@ export const loadFavorite = action$ =>
         .mergeMap(config => [
             setMap(config),
             ...config.mapViews.map(loadLayer),
+            setInterpretations(config.interpretations),
         ]);
 
 export default combineEpics(loadFavorite);

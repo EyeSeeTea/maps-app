@@ -142,8 +142,8 @@ class FavoritesMenu extends Component {
                 <InterpretationDialog
                     key="interpretation"
                     favoriteId={mapId}
-                    onSave={(id, interpretation) => {
-                        saveFavoriteInterpretation(id, interpretation);
+                    onSave={(id, text) => {
+                        saveFavoriteInterpretation(id, {text});
                         this.onDialogClose();
                     }}
                     onClose={() => this.onDialogClose()}

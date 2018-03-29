@@ -7,7 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import SvgIcon from 'd2-ui/lib/svg-icon/SvgIcon';
 import { grey600 } from 'material-ui/styles/colors';
 import i18next from 'i18next';
-import { timeFormat } from 'd3-time-format';
+import { getDateFromString } from '../../util/dateUtils';
 import size from 'lodash/fp/size';
 import SharingDialog from 'd2-ui/lib/sharing/SharingDialog.component';
 import DetailsDialog from '../favorites/DetailsDialog';
@@ -86,11 +86,6 @@ const getOwner = map => {
     return map.user ? map.user.displayName : '-';
 };
 
-const formatTime = dateString => {
-    const date = new Date(dateString);
-    return timeFormat('%Y-%m-%d')(date);
-}
-
 const accessMapping = {
     "--------": "None",
     "r-------": "Read",
@@ -123,9 +118,6 @@ const DetailsCard = (props, context) => {
         saveFavorite,
     } = props;
 
-    if (!map.id)
-        return null;
-
     const saveDetailsAndCloseDialog = (map, newAttributes) => {
         closeDetailsDialog(newAttributes);
         saveFavorite(["name", "description"]);
@@ -150,7 +142,7 @@ const DetailsCard = (props, context) => {
                 open={isDetailsDialogOpen}
                 favorite={map}
                 onSave={saveDetailsAndCloseDialog}
-                onClose={closeDetailsDialog} 
+                onClose={closeDetailsDialog}
             />
 
             <CardHeader
@@ -173,11 +165,11 @@ const DetailsCard = (props, context) => {
                     </ListItem>
 
                     <ListItem label={i18next.t('Created')}>
-                        {formatTime(map.created)}
+                        {getDateFromString(map.created)}
                     </ListItem>
 
                     <ListItem label={i18next.t('Last updated')}>
-                        {formatTime(map.lastUpdated)}
+                        {getDateFromString(map.lastUpdated)}
                     </ListItem>
 
                     <ListItem label={i18next.t('Views')}>
@@ -189,22 +181,20 @@ const DetailsCard = (props, context) => {
                         <EditButton icon="Group" map={map} tooltip="Edit sharing" onClick={openSharingDialog} />
                     </ListItem>
                 </List>
-
-                <div className="DetailsCard-toolbar">
-                </div>
             </CardText>
         </Card>
     );
 };
 
 DetailsCard.propTypes = {
+    map: PropTypes.object.isRequired,
     isExpanded: PropTypes.bool,
-    toggleDetailsExpand: PropTypes.func,
-    isSharingDialogOpen: PropTypes.bool,
-    openSharingDialog: PropTypes.func,
-    closeSharingDialog: PropTypes.func,
-    openDetailsDialog: PropTypes.func,
-    closeDetailsDialog: PropTypes.func,
+    toggleDetailsExpand: PropTypes.func.isRequired,
+    isSharingDialogOpen: PropTypes.bool.isRequired,
+    openSharingDialog: PropTypes.func.isRequired,
+    closeSharingDialog: PropTypes.func.isRequired,
+    openDetailsDialog: PropTypes.func.isRequired,
+    closeDetailsDialog: PropTypes.func.isRequired,
 };
 
 DetailsCard.defaultProps = {

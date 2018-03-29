@@ -46,6 +46,7 @@ const baseFields = [
     'publicAccess',
     'userGroupAccesses',
     'access',
+    'interpretations[id,user[id,displayName],created,likes,likedBy,text,comments[id,text]]',
 ];
 
 const analysisFields = async () => {

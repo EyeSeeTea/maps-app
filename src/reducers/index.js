@@ -12,6 +12,7 @@ import favorite from './favorite';
 import layerEdit from './layerEdit';
 import indicators from './indicators';
 import indicatorGroups from './indicatorGroups';
+import interpretations from './interpretations';
 import layers from './layers';
 import legendSets from './legendSets';
 import loading from './loading';
@@ -46,6 +47,7 @@ export default combineReducers({
     favorite,
     indicators,
     indicatorGroups,
+    interpretations,
     layerEdit,
     layers,
     legendSets,
