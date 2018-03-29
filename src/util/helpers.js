@@ -32,6 +32,16 @@ export const getDisplayPropertyUrl = d2 => {
     return `displayName~rename(name)`;
 };
 
+export const interpretationsFields = [
+    'id',
+    'user[id,displayName]',
+    'created',
+    'likes',
+    'likedBy[id,displayName]',
+    'text',
+    'comments[id,text,created,user[id,displayName]]',
+];
+
 const baseFields = [
     'id',
     'user[id,displayName]',
@@ -46,7 +56,7 @@ const baseFields = [
     'publicAccess',
     'userGroupAccesses',
     'access',
-    'interpretations[id,user[id,displayName],created,likes,likedBy,text,comments[id,text]]',
+    `interpretations[${interpretationsFields.join(',')}]`,
 ];
 
 const analysisFields = async () => {

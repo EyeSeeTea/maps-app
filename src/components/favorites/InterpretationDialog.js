@@ -39,7 +39,7 @@ class InterpretationDialog extends Component {
                     <Button
                         color="primary"
                         disabled={value ? false : true}
-                        onClick={() => onSave(favoriteId, value)}
+                        onClick={() => onSave(favoriteId, {...interpretation, text: value})}
                     >
                         {i18next.t('Save')}
                     </Button>,

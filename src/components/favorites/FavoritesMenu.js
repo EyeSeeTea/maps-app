@@ -15,8 +15,11 @@ import {
     saveFavorite,
     openFavoritesDialog,
     openSaveNewFavoriteDialog,
-    saveFavoriteInterpretation,
 } from '../../actions/favorites';
+
+import {
+    saveInterpretation,
+} from '../../actions/interpretations';
 
 const styles = {
     button: {
@@ -84,7 +87,7 @@ class FavoritesMenu extends Component {
     }
 
     render() {
-        const { mapId, saveFavoriteInterpretation } = this.props;
+        const { mapId, saveInterpretation } = this.props;
         const {
             anchorEl,
             showInterpretationDialog,
@@ -142,8 +145,8 @@ class FavoritesMenu extends Component {
                 <InterpretationDialog
                     key="interpretation"
                     favoriteId={mapId}
-                    onSave={(id, text) => {
-                        saveFavoriteInterpretation(id, {text});
+                    onSave={(id, newInterpretation) => {
+                        saveInterpretation(id, newInterpretation);
                         this.onDialogClose();
                     }}
                     onClose={() => this.onDialogClose()}
@@ -170,7 +173,7 @@ export default connect(
         saveFavorite,
         openFavoritesDialog,
         openSaveNewFavoriteDialog,
-        saveFavoriteInterpretation,
+        saveInterpretation,
         closeDataTable,
     }
 )(FavoritesMenu);

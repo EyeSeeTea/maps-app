@@ -1,7 +1,6 @@
 import { combineEpics } from 'redux-observable';
 import i18next from 'i18next';
 import * as types from '../constants/actionTypes';
-import { setMessage } from '../actions/message';
 import { apiFetch } from '../util/api';
 import { cleanMapConfig } from '../util/favorites';
 import pick from 'lodash/fp/pick';
@@ -44,18 +43,7 @@ export const saveNewFavorite = action$ =>
             )
         );
 
-// Save new favorite interpretation
-export const saveFavoriteInterpretation = action$ =>
-    action$
-        .ofType(types.FAVORITE_INTERPRETATION_SAVE)
-        .concatMap(({ id, interpretation }) =>
-            apiFetch(`/interpretations/map/${id}`, interpretation.id ? 'PUT' : 'POST', interpretation.text).then(
-                response => setMessage(i18next.t(response.message))
-            )
-        );
-
 export default combineEpics(
     saveFavorite,
     saveNewFavorite,
-    saveFavoriteInterpretation
 );

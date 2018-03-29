@@ -1,0 +1,29 @@
+.InterpretationsCard {
+    clear: both;
+    z-index: 1010;
+    margin: 8px 4px 8px 4px;
+}
+
+.InterpretationsCard-header {
+    height: 32px;
+    padding-left: 14px;
+    padding-right: 8px;
+    margin-right: -8px;
+    font-size: 10px;
+}
+
+.InterpretationsCard-list {
+    margin-left: 10px;
+}
+
+.InterpretationsCard-header span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.InterpretationsCard-toolbar {
+    background-color: #eee;
+    height: 32px;
+    padding-left: 7px;
+}

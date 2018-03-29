@@ -15,12 +15,6 @@ export const saveNewFavorite = config => ({
     config,
 });
 
-export const saveFavoriteInterpretation = (id, interpretation) => ({
-    type: types.FAVORITE_INTERPRETATION_SAVE,
-    id,
-    interpretation,
-});
-
 export const openFavoritesDialog = () => ({
     type: types.FAVORITES_DIALOG_OPEN,
 });
