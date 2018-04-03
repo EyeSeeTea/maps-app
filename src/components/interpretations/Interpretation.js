@@ -14,6 +14,20 @@ import {
     deleteComment,
 } from '../../actions/interpretations';
 
+const userCanManage = (d2, object) => {
+    const {currentUser} = d2;
+
+    if (!object || !object.user || !currentUser) {
+        return false;
+    } else if (object.user.id === currentUser.id) {
+        return true;
+    } else if (currentUser.authorities.has("ALL")) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
 class CommentTextarea extends React.Component {
     constructor(props) {
         super(props);
@@ -93,8 +107,10 @@ class InterpretationComments extends React.Component {
                             :
                                 <div>
                                     <div>{comment.text}</div>
-                                    <FlatButton label={i18next.t('Edit')} onClick={() => this._onEdit(comment)} />
-                                    <FlatButton label={i18next.t('Delete')} onClick={() => this._onDelete(comment)} />
+                                    {userCanManage(d2, comment) &&
+                                        <FlatButton label={i18next.t('Edit')} onClick={() => this._onEdit(comment)} />}
+                                    {userCanManage(d2, comment) &&
+                                        <FlatButton label={i18next.t('Delete')} onClick={() => this._onDelete(comment)} />}
                                 </div>
                         }
                     </div>
@@ -141,8 +157,10 @@ const Interpretation = props => {
                     {currentUserLikesInterpretation()
                         ? <FlatButton label={i18next.t('Unlike')} onClick={() => saveInterpretationLike(interpretation, false)} />
                         : <FlatButton label={i18next.t('Like')} onClick={() => saveInterpretationLike(interpretation, true)} />}
-                    <FlatButton label={i18next.t('Edit')} onClick={() => openInterpretationDialog(interpretation)} />
-                    <FlatButton label={i18next.t('Delete')} onClick={() => deleteInterpretation(interpretation)} />
+                    {userCanManage(d2, interpretation) &&
+                        <FlatButton label={i18next.t('Edit')} onClick={() => openInterpretationDialog(interpretation)} />}
+                    {userCanManage(d2, interpretation) &&
+                        <FlatButton label={i18next.t('Delete')} onClick={() => deleteInterpretation(interpretation)} />}
                 </div>
             }
 
