@@ -27,3 +27,13 @@
     height: 32px;
     padding-left: 7px;
 }
+
+.interpretationContainer
+{
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 2px;
+  margin-bottom: 2px;
+  box-shadow: #e1e1e1 0 1px 1px 0;
+  background-color: white;
+}

@@ -50,7 +50,7 @@ class InterpretationDialog extends Component {
                     name="interpretation"
                     value={value}
                     multiLine={true}
-                    rows={4}
+                    rows={1}
                     onChange={(evt, value) => this.setState({ value })}
                     style={styles.textfield}
                 />

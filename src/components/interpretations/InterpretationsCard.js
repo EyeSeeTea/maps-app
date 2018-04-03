@@ -79,12 +79,14 @@ const InterpretationsList = props => {
 
     return (
         <div>
-            {interpretations.length === 0 && <span>{i18next.t('No interpretations')}</span>}
+            <div style={{fontStyle: "italic", marginLeft: 15}}>
+                {interpretations.length === 0 && <span>{i18next.t('No interpretations')}</span>}
+            </div>
 
             {interpretations.map(interpretation => (
                 <div
                     key={interpretation.id}
-                    style={{border: "1px solid grey", cursor: "pointer"}}
+                    style={{cursor: "pointer"}}
                     onClick={() => setCurrentInterpretation(interpretation)}
                 >
                     <Interpretation d2={d2} interpretation={interpretation} />

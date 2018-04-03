@@ -16,8 +16,7 @@
         "test": "jest",
         "test:watch": "yarn test -- --watch",
         "prebuild": "yarn test",
-        "build":
-            "rm -rf build && NODE_ENV=production webpack --progress && npm run manifest && cp -r i18n build",
+        "build": "rm -rf build && NODE_ENV=production webpack --progress && npm run manifest && cp -r i18n build",
         "postbuild": "cp icon.png ./build/ && cp -r images ./build",
         "validate": "npm ls --depth 0 || yarn list",
         "manifest": "d2-manifest package.json build/manifest.webapp",
@@ -48,6 +47,7 @@
         "react": "^16.1.1",
         "react-color": "^2.13.5",
         "react-dom": "^16.1.1",
+        "react-intl": "2.3.0",
         "react-redux": "^5.0.7",
         "react-sortable-hoc": "^0.6.8",
         "react-tap-event-plugin": "^3.0.2",
@@ -107,7 +107,10 @@
         "webpack-dev-server": "^2.11.1",
         "webpack-uglify-js-plugin": "^1.1.9"
     },
-    "pre-commit": ["validate", "test"],
+    "pre-commit": [
+        "validate",
+        "test"
+    ],
     "manifest.webapp": {
         "name": "Maps App",
         "icons": {

@@ -18,10 +18,11 @@ export const saveInterpretationLike = (action$, store) =>
 export const deleteInterpretation = (action$, store) =>
     action$
         .ofType(types.INTERPRETATIONS_DELETE)
-        .concatMap(action =>
-            apiFetch(`/interpretations/${action.interpretation.id}`, "DELETE", {})
-                .then(() => loadInterpretations())
-        );
+        .concatMap(action => apiFetch(`/interpretations/${action.interpretation.id}`, "DELETE", {}))
+        .mergeMap(res => [
+            setMessage(i18next.t("Interpretation deleted")),
+            loadInterpretations(),
+        ]);
 
 export const loadInterpretationsEpic = (action$, store) =>
     action$
@@ -42,7 +43,7 @@ export const saveInterpretation = action$ =>
                 : ['POST', `/interpretations/map/${id}`];
             return apiFetch(url, method, interpretation.text)
         }).mergeMap(response => [
-            setMessage(i18next.t(response.message)),
+            setMessage(i18next.t("Interpretation saved")),
             loadInterpretations(),
         ]);
 
@@ -54,19 +55,22 @@ export const saveComment = (action$, store) =>
             const [method, url] = comment.id
                 ? ['PUT',  `/interpretations/${interpretation.id}/comments/${comment.id}`]
                 : ['POST', `/interpretations/${interpretation.id}/comments`];
-            http://localhost:8029/api/29/interpretations/Fk2CuUGCktt/comments/U34iddD4lxT
-            return apiFetch(url, method, comment.text)
-                .then(res => loadInterpretations())
-        });
+            return apiFetch(url, method, comment.text);
+        }).mergeMap(response => [
+            setMessage(i18next.t('Interpretation comment saved')),
+            loadInterpretations(),
+        ]);
 
 export const deleteComment = (action$, store) =>
     action$
         .ofType(types.INTERPRETATIONS_DELETE_COMMENT)
         .concatMap(({ interpretation, comment }) => {
             const url = `/interpretations/${interpretation.id}/comments/${comment.id}`;
-            return apiFetch(url, "DELETE", comment.text)
-                .then(res => loadInterpretations())
-        });
+            return apiFetch(url, "DELETE", comment.text);
+        }).mergeMap(res => [
+            setMessage(i18next.t("Interpretation comment deleted")),
+            loadInterpretations(),
+        ]);
 
 export default combineEpics(
     saveInterpretationLike,
