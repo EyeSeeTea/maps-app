@@ -9,7 +9,7 @@ import { grey600 } from 'material-ui/styles/colors';
 import i18next from 'i18next';
 import { getDateFromString } from '../../util/dateUtils';
 import size from 'lodash/fp/size';
-import SharingDialog from 'd2-ui/lib/sharing/SharingDialog.component';
+import SharingDialog from 'd2-ui-sharing';
 import DetailsDialog from '../favorites/DetailsDialog';
 
 import {
@@ -201,6 +201,10 @@ DetailsCard.defaultProps = {
     isExpanded: true,
     isSharingDialogOpen: false,
     isDetailsDialogOpen: false,
+};
+
+DetailsCard.contextTypes = {
+    d2: PropTypes.object.isRequired,
 };
 
 export default connect(
