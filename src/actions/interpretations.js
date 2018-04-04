@@ -34,9 +34,8 @@ export const saveInterpretationLike = (interpretation, value) => ({
     value,
 });
 
-export const saveInterpretation = (id, interpretation) => ({
+export const saveInterpretation = (interpretation) => ({
     type: types.INTERPRETATIONS_SAVE,
-    id,
     interpretation,
 });
 

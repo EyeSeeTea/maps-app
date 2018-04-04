@@ -86,8 +86,13 @@ class FavoritesMenu extends Component {
         });
     }
 
+    onDialogSave(newInterpretation) {
+        this.props.saveInterpretation(newInterpretation);
+        this.onDialogClose();
+    }
+
     render() {
-        const { mapId, saveInterpretation } = this.props;
+        const { mapId } = this.props;
         const {
             anchorEl,
             showInterpretationDialog,
@@ -145,10 +150,7 @@ class FavoritesMenu extends Component {
                 <InterpretationDialog
                     key="interpretation"
                     favoriteId={mapId}
-                    onSave={(id, newInterpretation) => {
-                        saveInterpretation(id, newInterpretation);
-                        this.onDialogClose();
-                    }}
+                    onSave={newInterpretation => this.onDialogSave(newInterpretation)}
                     onClose={() => this.onDialogClose()}
                 />
             ),

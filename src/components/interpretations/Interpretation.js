@@ -200,7 +200,7 @@ const Interpretation = props => {
     } = props;
 
     const comments = _(interpretation.comments).sortBy("created").reverse().value();
-    const likedByTooltip = interpretation.likedBy.map(user => user.displayName).join("&#10;");
+    const likedByTooltip = _(interpretation.likedBy).map(user => user.displayName).sortBy().join("\n");
     const currentUserLikesInterpretation = () =>
         _(interpretation.likedBy).some(user => user.id === d2.currentUser.id);
 

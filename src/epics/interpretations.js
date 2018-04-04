@@ -5,7 +5,8 @@ import { apiFetch } from '../util/api';
 import { setMessage } from '../actions/message';
 import { getInstance as getD2 } from 'd2/lib/d2';
 import { interpretationsFields } from '../util/helpers';
-import { loadInterpretations, setInterpretations } from '../actions/interpretations'
+import { loadInterpretations, setInterpretations, setCurrentInterpretation } from '../actions/interpretations'
+import { setMapRoute } from '../util/routes';
 
 export const saveInterpretationLike = (action$, store) =>
     action$
@@ -22,6 +23,7 @@ export const deleteInterpretation = (action$, store) =>
         .mergeMap(res => [
             setMessage(i18next.t("Interpretation deleted")),
             loadInterpretations(),
+            setCurrentInterpretation(null),
         ]);
 
 export const loadInterpretationsEpic = (action$, store) =>
@@ -37,11 +39,13 @@ export const loadInterpretationsEpic = (action$, store) =>
 export const saveInterpretation = action$ =>
     action$
         .ofType(types.INTERPRETATIONS_SAVE)
-        .concatMap(({ id, interpretation }) => {
+        .concatMap(action => {
+            const { interpretation } = action;
+            const mapId = store.getState().map.id;
             const [method, url] = interpretation.id
                 ? ['PUT',  `/interpretations/${interpretation.id}`]
-                : ['POST', `/interpretations/map/${id}`];
-            return apiFetch(url, method, interpretation.text)
+                : ['POST', `/interpretations/map/${mapId}`];
+            return apiFetch(url, method, interpretation.text);
         }).mergeMap(response => [
             setMessage(i18next.t("Interpretation saved")),
             loadInterpretations(),
@@ -72,6 +76,15 @@ export const deleteComment = (action$, store) =>
             loadInterpretations(),
         ]);
 
+export const setCurrentInterpretationEpic = (action$, store) =>
+    action$
+        .ofType(types.INTERPRETATIONS_SET_CURRENT)
+        .map(({ interpretation }) => {
+            const mapId = store.getState().map.id;
+            const interpretationId = interpretation ? interpretation.id : null;
+            return setMapRoute(mapId, {interpretationId});
+        });
+
 export default combineEpics(
     saveInterpretationLike,
     deleteInterpretation,
@@ -79,4 +92,5 @@ export default combineEpics(
     saveInterpretation,
     saveComment,
     deleteComment,
+    setCurrentInterpretationEpic,
 );

@@ -40,7 +40,7 @@ const styles = {
         height: 32,
         padding: 5,
         position: 'absolute',
-        right: 84,
+        right: 48,
         top: 0,
     },
     container: {
@@ -121,8 +121,8 @@ const InterpretationsCard = (props, context) => {
         setCurrentInterpretation,
     } = props;
 
-    const saveInterpretationAndClose = (id, interpretation) => {
-        saveInterpretation(id, interpretation);
+    const saveInterpretationAndClose = (interpretation) => {
+        saveInterpretation(interpretation);
         closeInterpretationDialog();
     };
 
@@ -140,7 +140,7 @@ const InterpretationsCard = (props, context) => {
                 <InterpretationDialog
                     favoriteId={map.id}
                     interpretation={interpretationToEdit}
-                    onSave={saveInterpretationAndClose}
+                    onSave={interpretation => saveInterpretationAndClose(interpretation)}
                     onClose={closeInterpretationDialog}
                 />
             }
@@ -150,7 +150,7 @@ const InterpretationsCard = (props, context) => {
                 showExpandableButton={true}
                 textStyle={styles.headerText}
             >
-                {currentInterpretation &&
+                {currentInterpretation ?
                     <IconButton
                         style={styles.back}
                         onClick={() => setCurrentInterpretation(null)}
@@ -158,15 +158,15 @@ const InterpretationsCard = (props, context) => {
                     >
                         <SvgIcon icon="ChevronLeft" color={grey600} />
                     </IconButton>
+                    :
+                    <IconButton
+                        style={styles.newInterpretation}
+                        onClick={() => openInterpretationDialog({})}
+                        tooltip={i18next.t('Write new interpretation')}
+                    >
+                        <SvgIcon icon="Add" color={grey600} />
+                    </IconButton>
                 }
-
-                <IconButton
-                    style={styles.newInterpretation}
-                    onClick={openInterpretationDialog}
-                    tooltip={i18next.t('Write new interpretation')}
-                >
-                    <SvgIcon icon="Add" color={grey600} />
-                </IconButton>
             </CardHeader>
 
             <CardText expandable={true} style={styles.body}>

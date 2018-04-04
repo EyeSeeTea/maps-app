@@ -1,8 +1,9 @@
 import * as types from '../constants/actionTypes';
 
-export const loadFavorite = id => ({
+export const loadFavorite = (id, interpretationId) => ({
     type: types.FAVORITE_LOAD,
     id,
+    interpretationId,
 });
 
 export const saveFavorite = (fields) => ({

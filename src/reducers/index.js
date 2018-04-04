@@ -34,7 +34,7 @@ import relocate from './relocate';
 import ui from './ui';
 import userSettings from './userSettings';
 
-export default combineReducers({
+export default {
     alert,
     basemaps,
     contextMenu,
@@ -69,4 +69,4 @@ export default combineReducers({
     relocate,
     ui,
     userSettings,
-});
+};

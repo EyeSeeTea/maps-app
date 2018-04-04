@@ -16,6 +16,9 @@ import ContextMenu from '../map/ContextMenu';
 import AboutDialog from '../about/AboutDialog';
 import AlertsDialog from '../alerts/AlertsDialog';
 import Message from '../message/Message';
+import { loadFavorite } from '../../actions/favorites';
+import store from '../../store';
+import { getMapRoute } from '../../util/routes';
 
 // Makes d2 available in all child components
 // Not using AppWithD2 from d2-ui because it requires d2 to be a promise
@@ -28,6 +31,13 @@ class App extends Component {
         return {
             d2: this.props.d2,
         };
+    }
+
+    componentDidMount() {
+        const route = getMapRoute(this.props.location);
+        // TODO: use redux?
+        if (route.id)
+            store.dispatch(loadFavorite(route.id, route.interpretationId));
     }
 
     render() {
