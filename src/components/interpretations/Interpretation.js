@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton/FlatButton';
 import { connect } from 'react-redux';
 import { getDateFromString } from '../../util/dateUtils';
 import SvgIcon from 'd2-ui/lib/svg-icon/SvgIcon';
-import { IntlProvider, FormattedDate, FormattedRelative } from 'react-intl';
+import { FormattedDate, FormattedRelative } from 'react-intl';
 import i18next from 'i18next';
 import { Avatar } from 'material-ui';
 
@@ -29,7 +29,6 @@ const EllipsisText = ({ max, text }) => {
 const UserAvatar = ({user}) => {
     const initials = user.displayName.split(" ").map(part => part[0]).slice(0, 2).join("");
     const style = {fontSize: 15, fontWeight: 'bold'};
-
     return (<Avatar color="black" size={32} style={style}>{initials}</Avatar>);
 };
 
@@ -152,9 +151,7 @@ class InterpretationComments extends React.Component {
                                         <div>{comment.text}</div>
 
                                         <span className="tipText">
-                                            <IntlProvider locale="en">
-                                                <FormattedRelative value={comment.created} />
-                                            </IntlProvider>
+                                            <FormattedRelative value={comment.created} />
                                         </span>
 
                                         <ActionSeparator labelText="" />
@@ -210,9 +207,7 @@ const Interpretation = props => {
                 <div className="interpretationName">
                     {getUserLink(d2, interpretation.user)}
                     <span className="tipText leftSpace">
-                        <IntlProvider locale="en">
-                            <FormattedDate value={interpretation.created} day="2-digit" month="short" year="numeric" />
-                        </IntlProvider>
+                        <FormattedDate value={interpretation.created} day="2-digit" month="short" year="numeric" />
                     </span>
                 </div>
 
