@@ -40,18 +40,15 @@ const styles = {
     },
 };
 
-const List = ({children}) => {
-    return <div className="DetailsCard-list">{children}</div>
-}
+const List = ({children}) =>
+    <div className="DetailsCard-list">{children}</div>;
 
-const ListItem = ({label, children}) => {
-    return (
-        <div>
-            {label && <label style={{fontWeight: "bold", marginRight: 5}}>{label}:</label>}
-            {children}
-        </div>
-    );
-};
+const ListItem = ({label, children}) => (
+    <div>
+        {label && <label style={{fontWeight: "bold", marginRight: 5}}>{label}:</label>}
+        {children}
+    </div>
+);
 
 const EditButton = props => {
     const { map, tooltip, icon, onClick } = props;

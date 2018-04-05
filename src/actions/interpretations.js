@@ -13,10 +13,9 @@ export const closeInterpretationDialog = () => ({
     type: types.INTERPRETATIONS_CLOSE_WRITE_DIALOG,
 });
 
-export const setInterpretations = (interpretations, currentInterpretationId) => ({
+export const setInterpretations = (interpretations) => ({
     type: types.INTERPRETATIONS_SET,
     interpretations,
-    currentInterpretationId,
 });
 
 export const loadInterpretations = () => ({

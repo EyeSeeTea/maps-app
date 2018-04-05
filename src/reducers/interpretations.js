@@ -18,10 +18,7 @@ const interpretations = (state = defaultState, action) => {
         case types.INTERPRETATIONS_CLOSE_WRITE_DIALOG:
             return {...state, interpretationToEdit: null};
         case types.INTERPRETATIONS_SET:
-            const newInterpretations = _(action.interpretations).sortBy("created").reverse().value();
-            const currentInterpretationObj =
-                action.currentInterpretationId === undefined ? {} : {currentInterpretationId};
-            return {...state, interpretations: newInterpretations, ...currentInterpretationObj};
+            return {...state, interpretations: action.interpretations};
         case types.INTERPRETATIONS_SET_CURRENT:
             return {...state, currentInterpretationId: action.interpretation ? action.interpretation.id : null};
         default:

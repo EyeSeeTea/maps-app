@@ -121,6 +121,8 @@ const InterpretationsCard = (props, context) => {
         setCurrentInterpretation,
     } = props;
 
+    const sortedInterpretations = _(interpretations).sortBy("created").reverse().value();
+    
     const saveInterpretationAndClose = (interpretation) => {
         saveInterpretation(interpretation);
         closeInterpretationDialog();
@@ -178,7 +180,7 @@ const InterpretationsCard = (props, context) => {
                     :
                     <InterpretationsList
                         d2={context.d2}
-                        interpretations={interpretations}
+                        interpretations={sortedInterpretations}
                         setCurrentInterpretation={setCurrentInterpretation}
                     />
                 }

@@ -13,9 +13,9 @@ export const mapRequest = async id => {
     const getFavoriteViews = d2.Api.getApi().get(`dataStatistics/favorites/${id}`).then(json => json.views);
 
     return Promise.all([getMapConfig, getFavoriteViews])
-        .then(([config, favoriteViews]) => ({
-            ...config,
-            mapViews: upgradeGisAppLayers(config.mapViews),
+        .then(([mapConfig, favoriteViews]) => ({
+            ...mapConfig,
+            mapViews: upgradeGisAppLayers(mapConfig.mapViews),
             favoriteViews: favoriteViews,
         }));
 };

@@ -9,16 +9,16 @@ import pick from 'lodash/fp/pick';
 // Save existing favorite
 export const saveFavorite = (action$, store) =>
     action$.ofType(types.FAVORITE_SAVE).concatMap(({ fields }) => {
-        const allConfig = cleanMapConfig(store.getState().map);
-        const config = fields ? pick(fields, allConfig) : allConfig;
+        const mapConfig = cleanMapConfig(store.getState().map);
+        const config = fields ? pick(fields, mapConfig) : mapConfig;
 
         if (config.mapViews) {
             config.mapViews.forEach(view => delete view.id);
         }
 
-        return apiFetch(`/maps/${allConfig.id}`, 'PUT', config).then(() =>
+        return apiFetch(`/maps/${mapConfig.id}`, 'PUT', config).then(() =>
             setMessage(
-                `${i18next.t('Favorite')} "${allConfig.name}" ${i18next.t(
+                `${i18next.t('Favorite')} "${mapConfig.name}" ${i18next.t(
                     'is saved'
                 )}.`
             )

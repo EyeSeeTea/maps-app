@@ -12,7 +12,7 @@ const defaultState = {
         subtitle: 'Basemap',
     },
     details: {
-        isExpanded: true, // true
+        isExpanded: true,
         isSharingDialogOpen: false,
         isDetailsDialogOpen: false,
     },

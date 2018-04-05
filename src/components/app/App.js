@@ -18,6 +18,7 @@ import AlertsDialog from '../alerts/AlertsDialog';
 import Message from '../message/Message';
 import { loadFavorite } from '../../actions/favorites';
 import store from '../../store';
+import { connect } from 'react-redux';
 import { getMapRoute } from '../../util/routes';
 
 // Makes d2 available in all child components
@@ -25,6 +26,11 @@ import { getMapRoute } from '../../util/routes';
 class App extends Component {
     static childContextTypes = {
         d2: PropTypes.object.isRequired,
+    };
+
+    static propTypes = {
+        d2: PropTypes.object.isRequired,
+        loadFavorite: PropTypes.func.isRequired,
     };
 
     getChildContext() {
@@ -35,9 +41,8 @@ class App extends Component {
 
     componentDidMount() {
         const route = getMapRoute(this.props.location);
-        // TODO: use redux?
         if (route.id)
-            store.dispatch(loadFavorite(route.id, route.interpretationId));
+            this.props.loadFavorite(route.id, route.interpretationId);
     }
 
     render() {
@@ -64,4 +69,9 @@ class App extends Component {
     }
 }
 
-export default App;
+export default connect(
+    state => ({}),
+    {
+        loadFavorite,
+    },
+)(App);

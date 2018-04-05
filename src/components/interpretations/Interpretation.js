@@ -7,6 +7,7 @@ import SvgIcon from 'd2-ui/lib/svg-icon/SvgIcon';
 import { FormattedDate, FormattedRelative } from 'react-intl';
 import i18next from 'i18next';
 import { Avatar } from 'material-ui';
+import { userCanManage } from '../../util/auth';
 
 import './Interpretation.css';
 
@@ -18,8 +19,9 @@ import {
     deleteComment,
 } from '../../actions/interpretations';
 
-const ActionSeparator = ({labelText = "·"}) =>
-    <label className="linkArea">{labelText}</label>;
+const ActionSeparator = ({labelText = "·"}) => (
+    <label className="linkArea">{labelText}</label>
+);
 
 const EllipsisText = ({ max, text }) => {
     const finalText = text && text.length > max ? `${text.slice(0, max)} ...` : text;
@@ -29,7 +31,7 @@ const EllipsisText = ({ max, text }) => {
 const UserAvatar = ({user}) => {
     const initials = user.displayName.split(" ").map(part => part[0]).slice(0, 2).join("");
     const style = {fontSize: 15, fontWeight: 'bold'};
-    return (<Avatar color="black" size={32} style={style}>{initials}</Avatar>);
+    return <Avatar color="black" size={32} style={style}>{initials}</Avatar>;
 };
 
 const WithAvatar = ({ user, children }) => (
@@ -43,20 +45,6 @@ const WithAvatar = ({ user, children }) => (
         </div>
     </div>
 );
-
-const userCanManage = (d2, object) => {
-    const {currentUser} = d2;
-
-    if (!object || !object.user || !currentUser) {
-        return false;
-    } else if (object.user.id === currentUser.id) {
-        return true;
-    } else if (currentUser.authorities.has("ALL")) {
-        return true;
-    } else {
-        return false;
-    }
-};
 
 const Link = (props) => {
     const { label, ...otherProps } = props;

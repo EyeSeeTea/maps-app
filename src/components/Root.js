@@ -4,18 +4,23 @@ import { Provider } from 'react-redux';
 import App from './app/App';
 import { Route } from 'react-router'
 import { ConnectedRouter } from 'react-router-redux'
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, addLocaleData } from 'react-intl';
 import history from '../store/history';
 
-const Root = ({ d2, store }) => (
-    <Provider store={store}>
-      <IntlProvider locale="en">
-          <ConnectedRouter history={history}>
-              <Route path="/" component={props => <App d2={d2} {...props} />} />
-          </ConnectedRouter>
-        </IntlProvider>
-    </Provider>
-);
+const Root = ({ d2, store }) => {
+  const locale = d2.currentUser.userSettings.settings.keyUiLocale || "en";
+  addLocaleData(require(`react-intl/locale-data/${locale}`));
+
+  return (
+      <Provider store={store}>
+        <IntlProvider locale={locale}>
+            <ConnectedRouter history={history}>
+                <Route path="/" component={props => <App d2={d2} {...props} />} />
+            </ConnectedRouter>
+          </IntlProvider>
+      </Provider>
+  );
+};
 
 Root.propTypes = {
     store: PropTypes.object.isRequired,
