@@ -14,8 +14,7 @@ import {RIGHT_PANEL_WIDTH } from '../../constants/layout';
 import InterpretationDialog from '../favorites/InterpretationDialog';
 import { getDateFromString } from '../../util/dateUtils';
 import Interpretation from './Interpretation';
-import _ from 'lodash';
-
+import './InterpretationsCard.css';
 import {
     toggleExpand,
     openInterpretationDialog,
@@ -23,8 +22,6 @@ import {
     setCurrentInterpretation,
     saveInterpretation,
 } from '../../actions/interpretations';
-
-import './InterpretationsCard.css';
 
 const styles = {
     newInterpretation: {
@@ -122,14 +119,15 @@ const InterpretationsCard = (props, context) => {
     } = props;
 
     const sortedInterpretations = _(interpretations).sortBy("created").reverse().value();
-    
+
     const saveInterpretationAndClose = (interpretation) => {
         saveInterpretation(interpretation);
         closeInterpretationDialog();
     };
 
-    const currentInterpretation =
-        currentInterpretationId ? _.find(interpretations, int => int.id === currentInterpretationId) : null;
+    const currentInterpretation = currentInterpretationId
+        ? interpretations.find(interpretation => interpretation.id === currentInterpretationId)
+        : null;
 
     return (
         <Card
@@ -173,10 +171,7 @@ const InterpretationsCard = (props, context) => {
 
             <CardText expandable={true} style={styles.body}>
                 {currentInterpretation ?
-                    <InterpretationDetails
-                        d2={context.d2}
-                        interpretation={currentInterpretation}
-                    />
+                    <InterpretationDetails d2={context.d2} interpretation={currentInterpretation} />
                     :
                     <InterpretationsList
                         d2={context.d2}
