@@ -16,7 +16,8 @@
         "test": "jest",
         "test:watch": "yarn test -- --watch",
         "prebuild": "yarn test",
-        "build": "rm -rf build && NODE_ENV=production webpack --progress && npm run manifest && cp -r i18n build",
+        "build":
+            "rm -rf build && NODE_ENV=production webpack --progress && npm run manifest && cp -r i18n build",
         "postbuild": "cp icon.png ./build/ && cp -r images ./build",
         "validate": "npm ls --depth 0 || yarn list",
         "manifest": "d2-manifest package.json build/manifest.webapp",
@@ -27,7 +28,7 @@
     },
     "dependencies": {
         "d2": "^29.1.1",
-        "d2-ui": "^29.0.18",
+        "d2-ui": "^29.0.5",
         "d2-ui-favorites": "^1.0.4",
         "d2-ui-sharing": "^1.0.2",
         "d2-utilizr": "^0.2.15",
@@ -41,7 +42,7 @@
         "i18next-xhr-backend": "^1.5.1",
         "lodash": "^4.17.5",
         "loglevel": "^1.6.1",
-        "material-ui": "^0.19.3",
+        "material-ui": "^0.20.0",
         "material-ui-icons": "^1.0.0-beta.17",
         "promise-polyfill": "^7.1.0",
         "prop-types": "^15.5.10",
@@ -49,11 +50,10 @@
         "react": "^16.1.1",
         "react-color": "^2.13.5",
         "react-dom": "^16.1.1",
-        "react-intl": "2.3.0",
+        "react-intl": "2.4.0",
         "react-redux": "^5.0.7",
         "react-router-redux": "next",
         "react-sortable-hoc": "^0.6.8",
-        "react-tap-event-plugin": "^3.0.2",
         "react-virtualized": "^9.18.5",
         "redux": "^3.7.2",
         "redux-logger": "^3.0.6",
@@ -110,10 +110,7 @@
         "webpack-dev-server": "^2.11.1",
         "webpack-uglify-js-plugin": "^1.1.9"
     },
-    "pre-commit": [
-        "validate",
-        "test"
-    ],
+    "pre-commit": ["validate", "test"],
     "manifest.webapp": {
         "name": "Maps App",
         "icons": {

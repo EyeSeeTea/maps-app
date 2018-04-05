@@ -74,7 +74,7 @@ const getDescription = map => {
     const {description} = map;
 
     if (!description) {
-        return i18next.t('No description')
+        return (<i>{i18next.t('No description')}</i>)
     } else if (description.length < descriptionMaxLength) {
         return description;
     } else {

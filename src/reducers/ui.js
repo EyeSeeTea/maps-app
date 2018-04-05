@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes';
 const defaultState = {
     width: typeof window === 'object' ? window.innerWidth : null,
     height: typeof window === 'object' ? window.innerHeight : null,
-    layersPanelOpen: false,
+    layersPanelOpen: true,
     rightPanelOpen: false,
     dataTableOpen: false,
     dataTableHeight: 300,
