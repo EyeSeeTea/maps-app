@@ -9,7 +9,7 @@ import { HEADER_HEIGHT, RIGHT_PANEL_WIDTH } from '../../constants/layout';
 
 const style = {
     position: 'absolute',
-    bottom: 15,
+    top: HEADER_HEIGHT + 15,
     right: RIGHT_PANEL_WIDTH,
     width: 24,
     height: 40,
