@@ -21,24 +21,24 @@ const style = {
     zIndex: 1100,
 };
 
-// This expand/collapse toggle is separate from RightPanel to avoid overflow issue
 const RightPanelToggle = ({ isOpen, openRightPanel, closeRightPanel }) =>
-    isOpen ? (
-        <IconButton
-            onClick={closeRightPanel}
-            style={style}
-            disableTouchRipple={true}
-        >
-            <SvgIcon icon="ChevronRight" color={grey800} />
-        </IconButton>
-    ) : (
-        <IconButton
-            onClick={openRightPanel}
-            style={{ ...style, right: 0 }}
-            disableTouchRipple={true}
-        >
-            <SvgIcon icon="ChevronLeft" color={grey800} />
-        </IconButton>
+    isOpen
+        ?
+            <IconButton
+                onClick={closeRightPanel}
+                style={style}
+                disableTouchRipple={true}
+            >
+                <SvgIcon icon="ChevronRight" color={grey800} />
+            </IconButton>
+        :
+            <IconButton
+                onClick={openRightPanel}
+                style={{ ...style, right: 0 }}
+                disableTouchRipple={true}
+            >
+                <SvgIcon icon="ChevronLeft" color={grey800} />
+            </IconButton>
     );
 
 RightPanelToggle.propTypes = {

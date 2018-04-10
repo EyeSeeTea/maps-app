@@ -70,7 +70,7 @@ export const deleteComment = (action$, store) =>
         .ofType(types.INTERPRETATIONS_DELETE_COMMENT)
         .concatMap(({ interpretation, comment }) => {
             const url = `/interpretations/${interpretation.id}/comments/${comment.id}`;
-            return apiFetch(url, "DELETE", comment.text);
+            return apiFetch(url, "DELETE", {});
         }).mergeMap(res => [
             setMessage(i18next.t("Interpretation comment deleted")),
             loadInterpretations(),

@@ -10,9 +10,9 @@ const details = (state = defaultState, action) => {
     switch (action.type) {
         case types.DETAILS_TOGGLE_EXPAND:
             return {...state, isExpanded: !state.isExpanded};
-        case types.SHARING_DIALOG_OPEN:
+        case types.DETAILS_SHARING_DIALOG_OPEN:
             return {...state, isSharingDialogOpen: true};
-        case types.SHARING_DIALOG_CLOSE:
+        case types.DETAILS_SHARING_DIALOG_CLOSE:
             return {...state, isSharingDialogOpen: false};
         case types.DETAILS_DIALOG_OPEN:
             return {...state, isDetailsDialogOpen: true};

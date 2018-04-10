@@ -5,11 +5,11 @@ export const toggleDetailsExpand = () => ({
 });
 
 export const openSharingDialog = () => ({
-    type: types.SHARING_DIALOG_OPEN,
+    type: types.DETAILS_SHARING_DIALOG_OPEN,
 });
 
 export const closeSharingDialog = map => ({
-    type: types.SHARING_DIALOG_CLOSE,
+    type: types.DETAILS_SHARING_DIALOG_CLOSE,
     payload: map,
 });
 

@@ -1,9 +1,9 @@
 import { combineEpics } from 'redux-observable';
 import i18next from 'i18next';
 import * as types from '../constants/actionTypes';
+import { setMessage } from '../actions/message';
 import { apiFetch } from '../util/api';
 import { cleanMapConfig } from '../util/favorites';
-import { setMessage } from '../actions/message';
 import pick from 'lodash/fp/pick';
 
 // Save existing favorite

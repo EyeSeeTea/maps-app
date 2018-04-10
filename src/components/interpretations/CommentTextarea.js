@@ -1,8 +1,15 @@
 import React from 'react';
 import i18next from 'i18next';
+import PropTypes from 'prop-types'
 import { Link, ActionSeparator } from './misc';
 
 export default class CommentTextarea extends React.Component {
+    static propTypes = {
+        comment: PropTypes.object.isRequired,
+        onPost: PropTypes.func.isRequired,
+        onCancel: PropTypes.func,
+    };
+
     constructor(props) {
         super(props);
         this.state = { text: props.comment.text || "" };

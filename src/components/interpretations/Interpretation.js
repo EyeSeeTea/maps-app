@@ -35,8 +35,9 @@ const EllipsisText = ({ max, text }) => {
 };
 
 const onDeleteInterpretationClick = (interpretation, deleteInterpretation) => {
-    if (confirm(i18next.t('Are you sure you want to remove this interpretation?')))
+    if (confirm(i18next.t('Are you sure you want to remove this interpretation?'))) {
         deleteInterpretation(interpretation);
+    }
 };
 
 const Interpretation = props => {

@@ -3,9 +3,36 @@ import { Link, ActionSeparator, WithAvatar, getUserLink } from './misc';
 import CommentTextarea from './CommentTextarea';
 import { userCanManage } from '../../util/auth';
 import { FormattedRelative } from 'react-intl';
+import PropTypes from 'prop-types';
 import i18next from 'i18next';
 
+const Comment = ({ comment, showActions, onEdit, onDelete }) => (
+    <div>
+        <div>{comment.text}</div>
+
+        <span className="tipText">
+            <FormattedRelative value={comment.created} />
+        </span>
+
+        <ActionSeparator labelText="" />
+
+        {showActions &&
+            <span>
+                <Link label={i18next.t('Edit')} onClick={() => onEdit(comment)} />
+                <ActionSeparator />
+                <Link label={i18next.t('Delete')} onClick={() => onDelete(comment)} />
+            </span>}
+    </div>
+);
+
 export default class InterpretationComments extends React.Component {
+    static propTypes = {
+        d2: PropTypes.object.isRequired,
+        comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+        onSave: PropTypes.func.isRequired,
+        onDelete: PropTypes.func.isRequired,
+    };
+
     state = {
         commentToEdit: null,
     };
@@ -40,37 +67,25 @@ export default class InterpretationComments extends React.Component {
                 </WithAvatar>
 
                 {comments.map(comment =>
-                    <div key={comment.id}>
-                        <WithAvatar user={comment.user}>
-                            <div>{getUserLink(d2, comment.user)}</div>
+                    <WithAvatar key={comment.id} user={comment.user}>
+                        <div>{getUserLink(d2, comment.user)}</div>
 
-                            {commentToEdit && commentToEdit.id === comment.id
-                                ?
-                                    <CommentTextarea
-                                        comment={comment}
-                                        onPost={text => this._onSave({...comment, text})}
-                                        onCancel={() => this._onCancelEdit()}
-                                    />
-                                :
-                                    <div>
-                                        <div>{comment.text}</div>
-
-                                        <span className="tipText">
-                                            <FormattedRelative value={comment.created} />
-                                        </span>
-
-                                        <ActionSeparator labelText="" />
-
-                                        {userCanManage(d2, comment) &&
-                                            <span>
-                                                <Link label={i18next.t('Edit')} onClick={() => this._onEdit(comment)} />
-                                                <ActionSeparator />
-                                                <Link label={i18next.t('Delete')} onClick={() => this._onDelete(comment)} />
-                                            </span>}
-                                    </div>
-                            }
-                        </WithAvatar>
-                    </div>
+                        {commentToEdit && commentToEdit.id === comment.id
+                            ?
+                                <CommentTextarea
+                                    comment={comment}
+                                    onPost={text => this._onSave({...comment, text})}
+                                    onCancel={() => this._onCancelEdit()}
+                                />
+                            :
+                                <Comment
+                                    comment={comment}
+                                    showActions={userCanManage(d2, comment)}
+                                    onEdit={() => this._onEdit(comment)}
+                                    onDelete={() => this._onDelete(comment)}
+                                />
+                        }
+                    </WithAvatar>
                 )}
             </div>
         );

@@ -47,6 +47,10 @@ class App extends Component {
             this.props.loadFavorite(route.id, route.interpretationId);
     }
 
+    componentWillReceiveProps(newProps) {
+        console.log("location", newProps.location);
+    }
+
     render() {
         const containerClassName = classNames({
             "favorite-loaded": !!this.props.map.id,

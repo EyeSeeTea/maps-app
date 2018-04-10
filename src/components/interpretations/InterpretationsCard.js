@@ -102,7 +102,27 @@ const InterpretationDetails = props => {
             <Interpretation d2={d2} interpretation={interpretation} showActions={true} showComments={true} />
         </div>
     );
-}
+};
+
+const InterpretationButtons = ({ currentInterpretation, setCurrentInterpretation, openInterpretationDialog }) => (
+    currentInterpretation ?
+        <IconButton
+            style={styles.back}
+            onClick={() => setCurrentInterpretation(null)}
+            tooltip={i18next.t('Clear interpretation')}
+        >
+           <SvgIcon icon="ChevronLeft" color={grey600} />
+        </IconButton>
+    :
+        <IconButton
+            style={styles.newInterpretation}
+            onClick={() => openInterpretationDialog({})}
+            tooltip={i18next.t('Write new interpretation')}
+            tooltipPosition="bottom-left"
+        >
+            <SvgIcon icon="Add" color={grey600} />
+        </IconButton>
+);
 
 const InterpretationsCard = (props, context) => {
     const {
@@ -144,41 +164,33 @@ const InterpretationsCard = (props, context) => {
                     onClose={closeInterpretationDialog}
                 />
             }
+
             <CardHeader
                 className="InterpretationsCard-header"
                 title={i18next.t('Interpretations')}
                 showExpandableButton={true}
                 textStyle={styles.headerText}
             >
-                {currentInterpretation ?
-                    <IconButton
-                        style={styles.back}
-                        onClick={() => setCurrentInterpretation(null)}
-                        tooltip={i18next.t('Clear interpretation')}
-                    >
-                        <SvgIcon icon="ChevronLeft" color={grey600} />
-                    </IconButton>
-                    :
-                    <IconButton
-                        style={styles.newInterpretation}
-                        onClick={() => openInterpretationDialog({})}
-                        tooltip={i18next.t('Write new interpretation')}
-                        tooltipPosition="bottom-left"
-                    >
-                        <SvgIcon icon="Add" color={grey600} />
-                    </IconButton>
-                }
+                <InterpretationButtons
+                    currentInterpretation={currentInterpretation}
+                    setCurrentInterpretation={setCurrentInterpretation}
+                    openInterpretationDialog={openInterpretationDialog}
+                />
             </CardHeader>
 
             <CardText expandable={true} style={styles.body}>
-                {currentInterpretation ?
-                    <InterpretationDetails d2={context.d2} interpretation={currentInterpretation} />
+                {currentInterpretation
+                    ?
+                        <InterpretationDetails
+                            d2={context.d2}
+                            interpretation={currentInterpretation}
+                        />
                     :
-                    <InterpretationsList
-                        d2={context.d2}
-                        interpretations={sortedInterpretations}
-                        setCurrentInterpretation={setCurrentInterpretation}
-                    />
+                        <InterpretationsList
+                            d2={context.d2}
+                            interpretations={sortedInterpretations}
+                            setCurrentInterpretation={setCurrentInterpretation}
+                        />
                 }
             </CardText>
         </Card>
