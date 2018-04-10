@@ -19,9 +19,9 @@ const style = {
 };
 
 const RightPanel = ({
-    map,
+    visible,
     rightPanelOpen,
-}) => (map.id ?
+}) => (visible ?
         <div>
             <RightPanelToggle />
             <Drawer
@@ -37,12 +37,12 @@ const RightPanel = ({
 );
 
 RightPanel.propTypes = {
-    map: PropTypes.object,
+    visible: PropTypes.bool.isRequired,
     rightPanelOpen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-    map: state.map,
+    visible: !!state.map.id,
     rightPanelOpen: state.ui.rightPanelOpen,
 });
 

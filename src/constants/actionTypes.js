@@ -6,6 +6,7 @@ export const ALERTS_CLEAR = 'ALERT_CLEAR';
 /* MAP */
 export const MAP_NEW = 'MAP_NEW';
 export const MAP_SET = 'MAP_SET';
+export const MAP_UPDATE = 'MAP_UPDATE';
 export const MAP_NAME_SET = 'MAP_NAME_SET';
 export const MAP_CONTEXT_MENU_OPEN = 'MAP_CONTEXT_MENU_OPEN';
 export const MAP_CONTEXT_MENU_CLOSE = 'MAP_CONTEXT_MENU_CLOSE';

@@ -1,6 +1,6 @@
 .interpretationDescSection {
   margin-bottom: 3px;
-  padding: 5px 5px 5px 7px;
+  padding: 5px 5px 5px 12px;
   font-size: 12px;
 }
 
@@ -10,12 +10,11 @@
 
 .interpretationText {
   margin-bottom: 5px;
-  margin-left: 4px;
+  margin-left: 0px;
   margin-top: 5px;
 }
 
 .interpretationItem {
-  /*width: 100%;*/
   padding: 2px 2px 2px 30px;
 }
 
@@ -25,13 +24,12 @@
 }
 
 .interpretationCommentArea {
-  margin: 2px 5px 5px 5px;
-  /*border: 1px solid #ddd;*/
+  margin: 2px 5px 5px 0px;
   font-size: 12px;
 }
 
 .likeArea {
-  padding: 4px;
+  padding: 4px 4px 4px 0px;
 }
 
 .commentArea {
@@ -88,9 +86,9 @@ a.interpretation {
 
 .greyBackground {
     background-color: #efefef;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-top: 1px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: 2px;
 }
 
 .greyBackground:first-child {

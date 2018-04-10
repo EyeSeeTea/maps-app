@@ -21,6 +21,11 @@ class DetailsDialog extends Component {
         this.state = { name, description };
     }
 
+    componentWillReceiveProps(nextProps) {
+        const { name, description } = nextProps.favorite;
+        this.setState({ name, description });
+    }
+
     render() {
         const { open, favorite, onSave, onClose } = this.props;
         const { name, description } = this.state;

@@ -9,6 +9,7 @@ import { grey600 } from 'material-ui/styles/colors';
 import i18next from 'i18next';
 import { getDateFromString } from '../../util/dateUtils';
 import size from 'lodash/fp/size';
+import pick from 'lodash/fp/pick';
 import SharingDialog from 'd2-ui-sharing';
 import DetailsDialog from '../favorites/DetailsDialog';
 
@@ -19,6 +20,8 @@ import {
     openDetailsDialog,
     closeDetailsDialog,
 } from '../../actions/details';
+
+import { updateMap } from '../../actions/map';
 
 import { saveFavorite } from '../../actions/favorites';
 
@@ -52,11 +55,11 @@ const ListItem = ({label, children}) => (
 
 const EditButton = props => {
     const { map, tooltip, icon, onClick } = props;
-    const iconStyle = {width: 14, height: 14, padding: 0, marginLeft: 2};
+    const iconStyle = { width: 14, height: 14, padding: 0, marginLeft: 2 };
 
     if (map && map.access && map.access.update) {
         return (
-            <IconButton tooltip="{tooltip}" onClick={onClick} style={iconStyle} iconStyle={iconStyle}>
+            <IconButton tooltip={tooltip} onClick={onClick} style={iconStyle} iconStyle={iconStyle}>
                 <SvgIcon icon={icon} color={grey600} />
             </IconButton>
         );
@@ -113,11 +116,19 @@ const DetailsCard = (props, context) => {
         closeDetailsDialog,
         isDetailsDialogOpen,
         saveFavorite,
+        updateMap,
     } = props;
 
     const saveDetailsAndCloseDialog = (map, newAttributes) => {
-        closeDetailsDialog(newAttributes);
-        saveFavorite(["name", "description"]);
+        updateMap(newAttributes);
+        saveFavorite(Object.keys(newAttributes));
+        closeDetailsDialog()
+    };
+
+    const updateMapAndCloseDialog = (map) => {
+        const newAttributes = pick(["publicAccess", "userGroupAccesses"], map);
+        updateMap(newAttributes);
+        closeSharingDialog();
     };
 
     return (
@@ -131,7 +142,7 @@ const DetailsCard = (props, context) => {
                 open={isSharingDialogOpen}
                 type="map"
                 id={map.id}
-                onRequestClose={closeSharingDialog}
+                onRequestClose={updateMapAndCloseDialog}
                 d2={context.d2}
             />
 
@@ -192,6 +203,7 @@ DetailsCard.propTypes = {
     closeSharingDialog: PropTypes.func.isRequired,
     openDetailsDialog: PropTypes.func.isRequired,
     closeDetailsDialog: PropTypes.func.isRequired,
+    updateMap: PropTypes.func.isRequired,
 };
 
 DetailsCard.defaultProps = {
@@ -207,9 +219,9 @@ DetailsCard.contextTypes = {
 export default connect(
     state => ({
         map: state.map,
-        isExpanded: state.map.details.isExpanded,
-        isSharingDialogOpen: state.map.details.isSharingDialogOpen,
-        isDetailsDialogOpen: state.map.details.isDetailsDialogOpen,
+        isExpanded: state.details.isExpanded,
+        isSharingDialogOpen: state.details.isSharingDialogOpen,
+        isDetailsDialogOpen: state.details.isDetailsDialogOpen,
     }),
     {
         toggleDetailsExpand,
@@ -218,5 +230,6 @@ export default connect(
         openDetailsDialog,
         closeDetailsDialog,
         saveFavorite,
+        updateMap,
     },
 )(DetailsCard);

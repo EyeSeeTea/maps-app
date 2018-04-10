@@ -61,7 +61,7 @@ const EditButton = props => {
 
     if (map && map.access && map.access.update) {
         return (
-            <IconButton tooltip="{tooltip}" onClick={onClick} style={iconStyle} iconStyle={iconStyle}>
+            <IconButton tooltip={tooltip} onClick={onClick} style={iconStyle} iconStyle={iconStyle}>
                 <SvgIcon icon={icon} color={grey600} />
             </IconButton>
         );
@@ -163,6 +163,7 @@ const InterpretationsCard = (props, context) => {
                         style={styles.newInterpretation}
                         onClick={() => openInterpretationDialog({})}
                         tooltip={i18next.t('Write new interpretation')}
+                        tooltipPosition="bottom-left"
                     >
                         <SvgIcon icon="Add" color={grey600} />
                     </IconButton>

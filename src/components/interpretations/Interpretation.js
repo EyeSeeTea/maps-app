@@ -20,6 +20,15 @@ import {
     deleteComment,
 } from '../../actions/interpretations';
 
+const styles = {
+    like: {
+        width: 16,
+        height: 16,
+        marginRight: 5,
+        verticalAlign: "top",
+    },
+};
+
 const EllipsisText = ({ max, text }) => {
     const finalText = text && text.length > max ? `${text.slice(0, max)} ...` : text;
     return <span>{finalText}</span>;
@@ -84,7 +93,7 @@ const Interpretation = props => {
 
                     <div className="interpretationCommentArea">
                         <div className="likeArea greyBackground">
-                            <img src="images/like.png" className="verticalAlignTop" />
+                            <SvgIcon icon="ThumbUp" style={styles.like} />
 
                             <span style={{color: "#22A"}} title={likedByTooltip}>
                                 {interpretation.likes} {i18next.t('people like this')}

@@ -7,6 +7,7 @@ import dataElementGroups from './dataElementGroups';
 import dataElementOperands from './dataElementOperands';
 import dataSets from './dataSets';
 import dataTable from './dataTable';
+import details from './details';
 import earthEngine from './earthEngine';
 import favorite from './favorite';
 import layerEdit from './layerEdit';
@@ -43,6 +44,7 @@ export default {
     dataElementOperands,
     dataSets,
     dataTable,
+    details,
     earthEngine,
     favorite,
     indicators,
