@@ -37,7 +37,7 @@ export const loadInterpretationsEpic = (action$, store) =>
                 .then(res => setInterpretations(res.interpretations))
         });
 
-export const saveInterpretation = action$ =>
+export const saveInterpretation = (action$, store) =>
     action$
         .ofType(types.INTERPRETATIONS_SAVE)
         .concatMap(action => {
@@ -50,7 +50,6 @@ export const saveInterpretation = action$ =>
         }).mergeMap(response => [
             setMessage(i18next.t("Interpretation saved")),
             loadInterpretations(),
-            closeLayersPanel(),
             openRightPanel(),
         ]);
 
