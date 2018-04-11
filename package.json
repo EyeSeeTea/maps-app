@@ -1,6 +1,6 @@
 {
     "name": "maps-app",
-    "version": "29.0.24",
+    "version": "29.0.26",
     "description": "DHIS2 Maps",
     "main": "src/app.js",
     "repository": {
@@ -115,7 +115,7 @@
         "test"
     ],
     "manifest.webapp": {
-        "name": "Maps App",
+        "name": "DHIS2 Maps",
         "icons": {
             "48": "icon.png"
         },
