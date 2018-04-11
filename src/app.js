@@ -60,8 +60,6 @@ getManifest('manifest.webapp')
     .then(init)
     .then(
         d2 => {
-            window.d2 = d2;
-            
             if (!d2.currentUser.authorities.has('F_SYSTEM_SETTING')) {
                 document.write(i18next.t('Access denied'));
                 return;

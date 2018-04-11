@@ -23,6 +23,4 @@ const store = createStore(
     compose(routes.enhancer, middleware),
 );
 
-window.store = store;
-
 export default store;
