@@ -24,7 +24,7 @@ const UserAvatar = ({user}) => {
 
 export const WithAvatar = ({ user, children }) => (
     <div className="greyBackground" style={{display: "flex", marginTop: 10, marginBottom: 10}}>
-        <div style={{width: 40}}>
+        <div style={{width: 40, marginLeft: 5}}>
             <UserAvatar user={user} />
         </div>
 

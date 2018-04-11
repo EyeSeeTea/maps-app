@@ -8,7 +8,9 @@ import i18next from 'i18next';
 
 const Comment = ({ comment, showActions, onEdit, onDelete }) => (
     <div>
-        <div>{comment.text}</div>
+        <div className="commentText">
+            {comment.text}
+        </div>
 
         <span className="tipText">
             <FormattedRelative value={comment.created} />
@@ -68,7 +70,9 @@ export default class InterpretationComments extends React.Component {
 
                 {comments.map(comment =>
                     <WithAvatar key={comment.id} user={comment.user}>
-                        <div>{getUserLink(d2, comment.user)}</div>
+                        <div className="commentAuthor">
+                            {getUserLink(d2, comment.user)}
+                        </div>
 
                         {commentToEdit && commentToEdit.id === comment.id
                             ?

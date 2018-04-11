@@ -28,7 +28,7 @@
 }
 
 .likeArea {
-  padding: 4px 4px 4px 0px;
+  padding: 4px 4px 4px 5px;
 }
 
 .commentArea {
@@ -47,6 +47,14 @@
   height: 24px;
   margin: 1px 0 0 5px;
   float: right;
+}
+
+.commentAuthor {
+  margin-bottom: 2px;
+}
+
+.commentText {
+  margin-bottom: 2px;
 }
 
 .disabledLink {
