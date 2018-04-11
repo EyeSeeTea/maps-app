@@ -12,16 +12,17 @@ import { loadLayer } from '../actions/layers';
 import { openLayersPanel, closeLayersPanel, openRightPanel, closeRightPanel } from '../actions/ui';
 import { setInterpretations, setCurrentInterpretation, openInterpretationDialog } from '../actions/interpretations';
 import { newMap } from '../actions/map';
-import compact from 'lodash/fp/compact';
 
 const getInterpretationActions = (favoriteChanged, interpretationId) => {
-    const rightPanelAction = interpretationId ? openRightPanel() : closeRightPanel();
-    const layersPanelAction = favoriteChanged && interpretationId ? closeLayersPanel() : null;
+    const panelActionFunctions = interpretationId
+        ? [closeLayersPanel, openRightPanel]
+        : [openLayersPanel, closeRightPanel];
+    const panelActions = favoriteChanged ? panelActionFunctions.map(f => f()) : [];
     const setInterpretationAction = (interpretationId === "new")
         ? openInterpretationDialog({})
         : setCurrentInterpretation(interpretationId);
 
-    return compact([rightPanelAction, layersPanelAction, setInterpretationAction]);
+    return [...panelActions, setInterpretationAction];
 };
 
 // Load one favorite
