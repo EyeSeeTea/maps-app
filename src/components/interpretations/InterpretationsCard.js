@@ -56,6 +56,7 @@ const styles = {
     },
     interpretation: {
         cursor: "pointer",
+        padding: 4,
     },
 };
 

@@ -2,6 +2,7 @@
     clear: both;
     z-index: 1010;
     margin: 8px 4px 8px 4px;
+    padding-bottom: 6px;
 }
 
 .InterpretationsCard-header {
