@@ -12,15 +12,20 @@ const defaultState = {
 const interpretations = (state = defaultState, action) => {
     switch (action.type) {
         case types.INTERPRETATIONS_TOGGLE_EXPAND:
-            return {...state, isExpanded: !state.isExpanded};
+            return { ...state, isExpanded: !state.isExpanded };
+
         case types.INTERPRETATIONS_OPEN_WRITE_DIALOG:
-            return {...state, interpretationToEdit: action.interpretation};
+            return { ...state, interpretationToEdit: action.interpretation };
+
         case types.INTERPRETATIONS_CLOSE_WRITE_DIALOG:
-            return {...state, interpretationToEdit: null};
+            return { ...state, interpretationToEdit: null };
+
         case types.INTERPRETATIONS_SET:
-            return {...state, interpretations: action.interpretations};
+            return { ...state, interpretations: action.interpretations };
+
         case types.INTERPRETATIONS_SET_CURRENT:
-            return {...state, currentInterpretationId: action.interpretationId};
+            return { ...state, currentInterpretationId: action.interpretationId };
+
         default:
             return state;
     }
