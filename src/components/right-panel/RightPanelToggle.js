@@ -21,7 +21,7 @@ const style = {
     zIndex: 1100,
 };
 
-const RightPanelToggle = ({ isOpen, openRightPanel, closeRightPanel }) =>
+const RightPanelToggle = ({ isOpen, openRightPanel, closeRightPanel }) => (
     isOpen
         ?
             <IconButton
@@ -39,7 +39,7 @@ const RightPanelToggle = ({ isOpen, openRightPanel, closeRightPanel }) =>
             >
                 <SvgIcon icon="ChevronLeft" color={grey800} />
             </IconButton>
-    );
+);
 
 RightPanelToggle.propTypes = {
     isOpen: PropTypes.bool.isRequired,

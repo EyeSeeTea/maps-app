@@ -19,9 +19,10 @@ import {
     toggleExpand,
     openInterpretationDialog,
     closeInterpretationDialog,
-    setCurrentInterpretation,
     saveInterpretation,
 } from '../../actions/interpretations';
+
+import { setCurrentInterpretation } from '../../actions/favorites';
 
 const styles = {
     newInterpretation: {
@@ -53,6 +54,9 @@ const styles = {
     body: {
         padding: 0,
     },
+    interpretation: {
+        cursor: "pointer",
+    },
 };
 
 const EditButton = props => {
@@ -83,8 +87,8 @@ const InterpretationsList = props => {
             {interpretations.map(interpretation => (
                 <div
                     key={interpretation.id}
-                    style={{cursor: "pointer"}}
-                    onClick={() => setCurrentInterpretation(interpretation)}
+                    style={styles.interpretation}
+                    onClick={() => setCurrentInterpretation(interpretation.id)}
                 >
                     <Interpretation d2={d2} interpretation={interpretation} />
                 </div>

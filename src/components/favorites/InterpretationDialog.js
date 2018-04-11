@@ -17,7 +17,7 @@ const styles = {
 class InterpretationDialog extends Component {
     constructor(props) {
         super(props);
-        this.state = {value: props.interpretation ? props.interpretation.text : ""};
+        this.state = { value: props.interpretation ? props.interpretation.text : "" };
     }
 
     render() {

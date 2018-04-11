@@ -19,7 +19,6 @@ import Message from '../message/Message';
 import { loadFavorite } from '../../actions/favorites';
 import store from '../../store';
 import { connect } from 'react-redux';
-import { getMapRoute } from '../../util/routes';
 import classNames from 'classnames';
 
 // Makes d2 available in all child components
@@ -39,16 +38,6 @@ class App extends Component {
         return {
             d2: this.props.d2,
         };
-    }
-
-    componentDidMount() {
-        const route = getMapRoute(this.props.location);
-        if (route.id)
-            this.props.loadFavorite(route.id, route.interpretationId);
-    }
-
-    componentWillReceiveProps(newProps) {
-        console.log("location", newProps.location);
     }
 
     render() {

@@ -20,7 +20,7 @@ const interpretations = (state = defaultState, action) => {
         case types.INTERPRETATIONS_SET:
             return {...state, interpretations: action.interpretations};
         case types.INTERPRETATIONS_SET_CURRENT:
-            return {...state, currentInterpretationId: action.interpretation ? action.interpretation.id : null};
+            return {...state, currentInterpretationId: action.interpretationId};
         default:
             return state;
     }

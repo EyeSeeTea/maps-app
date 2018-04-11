@@ -22,9 +22,9 @@ export const loadInterpretations = () => ({
     type: types.INTERPRETATIONS_LOAD,
 });
 
-export const setCurrentInterpretation = (interpretation) => ({
+export const setCurrentInterpretation = (interpretationId) => ({
     type: types.INTERPRETATIONS_SET_CURRENT,
-    interpretation,
+    interpretationId,
 });
 
 export const saveInterpretationLike = (interpretation, value) => ({

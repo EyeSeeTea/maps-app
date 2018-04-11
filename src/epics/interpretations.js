@@ -5,8 +5,9 @@ import { apiFetch } from '../util/api';
 import { setMessage } from '../actions/message';
 import { getInstance as getD2 } from 'd2/lib/d2';
 import { interpretationsFields } from '../util/helpers';
-import { loadInterpretations, setInterpretations, setCurrentInterpretation } from '../actions/interpretations'
-import { setMapRoute } from '../util/routes';
+import { closeLayersPanel, openRightPanel } from '../actions/ui';
+import { loadInterpretations, setInterpretations } from '../actions/interpretations'
+import { setCurrentInterpretation } from '../actions/favorites'
 
 export const saveInterpretationLike = (action$, store) =>
     action$
@@ -49,6 +50,8 @@ export const saveInterpretation = action$ =>
         }).mergeMap(response => [
             setMessage(i18next.t("Interpretation saved")),
             loadInterpretations(),
+            closeLayersPanel(),
+            openRightPanel(),
         ]);
 
 export const saveComment = (action$, store) =>
@@ -76,15 +79,6 @@ export const deleteComment = (action$, store) =>
             loadInterpretations(),
         ]);
 
-export const setCurrentInterpretationEpic = (action$, store) =>
-    action$
-        .ofType(types.INTERPRETATIONS_SET_CURRENT)
-        .map(({ interpretation }) => {
-            const mapId = store.getState().map.id;
-            const interpretationId = interpretation ? interpretation.id : null;
-            return setMapRoute(mapId, {interpretationId});
-        });
-
 export default combineEpics(
     saveInterpretationLike,
     deleteInterpretation,
@@ -92,5 +86,4 @@ export default combineEpics(
     saveInterpretation,
     saveComment,
     deleteComment,
-    setCurrentInterpretationEpic,
 );
