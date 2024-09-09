@@ -330,7 +330,9 @@ const loadData = async config => {
         relativePeriodDate,
         aggregationType,
         renderingStrategy = RENDERING_STRATEGY_SINGLE,
+        timeField,
     } = config;
+
     const orgUnits = getOrgUnitsFromRows(rows);
     const period = getPeriodFromFilters(filters);
     const dimensions = getValidDimensionsFromFilters(config.filters);
@@ -404,6 +406,11 @@ const loadData = async config => {
         .getAll(geoFeaturesParams)
         .then(toGeoJson);
 
+    if (timeField) {
+        analyticsRequest = analyticsRequest.withParameters({
+            timeField: timeField,
+        });
+    }
     // Data request
     const dataReq = d2.analytics.aggregate.get(analyticsRequest);
 

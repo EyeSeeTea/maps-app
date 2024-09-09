@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import MapView from './MapView';
 import MapName from './MapName';
 import MapLoadingMask from './MapLoadingMask';
+import ZebraCustomLegends from '../zebraCustomLegends/ZebraCustomLegends';
 import DownloadLegend from '../download/DownloadLegend';
 import { openContextMenu, closeCoordinatePopup } from '../../actions/map';
 import { setAggregations } from '../../actions/aggregations';
@@ -33,6 +34,7 @@ const MapContainer = props => {
         openContextMenu,
         closeCoordinatePopup,
         setAggregations,
+        currentAppInfo,
     } = props;
     const [resizeCount, setResizeCount] = useState(0);
     const basemap = useBasemapConfig(props.basemap);
@@ -53,8 +55,17 @@ const MapContainer = props => {
         setResizeCount(resizeCount + 1);
     }, [layersPanelOpen, rightPanelOpen, dataTableOpen, dataTableHeight]);
 
+    const legends = useMemo(
+        () =>
+            (layers || [])
+                .filter(layer => layer.legend)
+                .map(layer => layer.legend)
+                .reverse(),
+        [layers]
+    );
+
     return (
-        <div style={style}>
+        <div className="dhis2-map-container-wrapper" style={style}>
             <div
                 id="dhis2-map-container"
                 className={cx(styles.container, {
@@ -62,7 +73,7 @@ const MapContainer = props => {
                     [styles.download]: isDownload,
                 })}
             >
-                <MapName />
+                {currentAppInfo?.app === 'ZEBRA' ? null : <MapName />}
                 <MapView
                     isPlugin={false}
                     basemap={basemap}
@@ -74,7 +85,11 @@ const MapContainer = props => {
                     closeCoordinatePopup={closeCoordinatePopup}
                     setAggregations={setAggregations}
                     resizeCount={resizeCount}
+                    currentAppInfo={currentAppInfo}
                 />
+                {legends?.length && currentAppInfo?.app === 'ZEBRA' ? (
+                    <ZebraCustomLegends legends={legends} />
+                ) : null}
                 {isDownload && legendPosition && layers.length ? (
                     <DownloadLegend
                         position={legendPosition}
@@ -105,10 +120,14 @@ MapContainer.propTypes = {
     openContextMenu: PropTypes.func.isRequired,
     closeCoordinatePopup: PropTypes.func.isRequired,
     setAggregations: PropTypes.func.isRequired,
+    currentAppInfo: PropTypes.shape({
+        app: PropTypes.string.isRequired,
+        page: PropTypes.string,
+    }),
 };
 
 export default connect(
-    ({ map, download, dataTable, ui, feature }) => ({
+    ({ map, download, dataTable, ui, feature, currentAppInfo }) => ({
         basemap: map.basemap,
         newLayerIsLoading: map.newLayerIsLoading,
         coordinatePopup: map.coordinatePopup,
@@ -119,6 +138,7 @@ export default connect(
         legendPosition: download.showLegend ? download.legendPosition : null,
         dataTableOpen: !!dataTable,
         feature,
+        currentAppInfo,
         ...ui,
     }),
     {

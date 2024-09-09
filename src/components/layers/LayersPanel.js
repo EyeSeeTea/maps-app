@@ -20,7 +20,7 @@ const SortableLayersList = SortableContainer(({ layers }) => (
 
 const LayersPanel = ({ layersPanelOpen, layers, sortLayers }) =>
     layersPanelOpen && (
-        <Drawer position="left">
+        <Drawer position="left" className="layers-panel-drawer">
             <SortableLayersList
                 layers={layers}
                 onSortEnd={sortLayers}

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { IconChevronLeft24, IconChevronRight24 } from '@dhis2/ui';
+import cx from 'classnames';
+
 import { openLayersPanel, closeLayersPanel } from '../../actions/ui';
 import styles from './styles/LayersToggle.module.css';
 
@@ -15,7 +17,7 @@ const LayersToggle = ({
     !isDownload && (
         <div
             onClick={isOpen ? closeLayersPanel : openLayersPanel}
-            className={styles.layersToggle}
+            className={cx(styles.layersToggle, 'layers-toggle-container')}
             style={isOpen ? {} : { left: 0 }}
         >
             {isOpen ? <IconChevronLeft24 /> : <IconChevronRight24 />}
