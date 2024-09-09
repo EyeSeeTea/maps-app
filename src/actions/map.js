@@ -83,7 +83,7 @@ export const tOpenMap = (mapId, keyDefaultBaseMap, dataEngine) => async (
  * @param {string} [programIndicatorData.programName] - The name of the program.
  * @param {string|undefined} [startDate] - Optional. The start date in ISO format (YYYY-MM-DD).
  * @param {string|undefined} [endDate] - Optional. The end date in ISO format (YYYY-MM-DD).
- * @param {string} [timeField="ENROLLMENT_DATE"] - The time field to be used for filtering. It only accepts the values `EVENT_DATE`, `ENROLLMENT_DATE`, or `INCIDENT_DATE`. The default value is `ENROLLMENT_DATE`.
+ * @param {string} [timeField="ENROLLMENT_DATE"] - The time field to be used for filtering. The default value is `ENROLLMENT_DATE`.
  * @returns {Function} An async function that dispatches actions to configure the map and load the layer.
  */
 export const tOpenProgramIndicatorMapWithOrgUnitsInLayerInStartEndDate = (
