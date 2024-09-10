@@ -140,10 +140,6 @@ function getDiseaseOrHazardTypeDataByIncidentStatus(
 
 /**
  * Epic that handles loading custom popup data for the Zebra module.
- * This epic listens for the `ZEBRA_CUSTOM_POPUP_DATA_LOAD` action type, then performs an asynchronous operation to
- * fetch and process the relevant data based on the action payload. If the `popupType` is 'DASHBOARD' and the required
- * conditions are met, it makes an API request to retrieve analytics data, processes it, and dispatches an action to set
- * the custom popup data. Otherwise, it dispatches an action with only the last updated date.
  * @param {Observable} action$ - The stream of actions from which to extract the relevant actions.
  * @returns {Observable} An observable that emits the `setZebraCustomPopupData` action with the processed data, or
  *                       an error action if an error occurs.

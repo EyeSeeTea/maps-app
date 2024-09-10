@@ -40,26 +40,15 @@ class ZebraCustomThematicLayer extends Layer {
             data: PropTypes.object,
             lastUpdatedDate: PropTypes.string,
         }),
-        programIndicators: PropTypes.shape({
-            dashboard: PropTypes.arrayOf(
-                PropTypes.shape({
-                    id: PropTypes.string,
-                    name: PropTypes.string,
-                    disease: PropTypes.string,
-                    hazardType: PropTypes.string,
-                    incidentStatus: PropTypes.string,
-                })
-            ),
-            eventTracker: PropTypes.arrayOf(
-                PropTypes.shape({
-                    id: PropTypes.string,
-                    name: PropTypes.string,
-                    disease: PropTypes.string,
-                    hazardType: PropTypes.string,
-                    incidentStatus: PropTypes.string,
-                })
-            ),
-        }),
+        programIndicators: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string,
+                name: PropTypes.string,
+                disease: PropTypes.string,
+                hazardType: PropTypes.string,
+                incidentStatus: PropTypes.string,
+            })
+        ),
         loadZebraCustomPopupData: PropTypes.func.isRequired,
         currentAppInfo: PropTypes.shape({
             app: PropTypes.string.isRequired,
@@ -266,7 +255,7 @@ class ZebraCustomThematicLayer extends Layer {
                 orgUnits: [evt.feature.properties.id],
                 startDate: startDate ? startDate : DEFAULT_START_DATE,
                 endDate: endDate ? endDate : DEFAULT_END_DATE,
-                programIndicators: programIndicators.dashboard,
+                programIndicators: programIndicators,
                 popupType: currentAppInfo?.page,
             });
         }

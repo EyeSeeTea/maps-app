@@ -6,7 +6,6 @@ import * as types from '../constants/actionTypes';
  * @param {Object} dataStoreInfo - Information required to load the zebra program indicators.
  * @param {string} dataStoreInfo.zebraNamespace - The namespace in the datastore for zebra indicators.
  * @param {string} dataStoreInfo.dashboardKey - The key in the datastore for retrieving dashboard program indicators info.
- * @param {string} dataStoreInfo.eventTrackerKey - The key in the datastore for retrieving event tracker program indicators info.
  * @returns {Object} The action object with type `types.ZEBRA_PROGRAM_INDICATORS_LOAD` and the passed data as payload.
  */
 export const loadZebraProgramIndicators = dataStoreInfo => ({
@@ -25,9 +24,7 @@ export const loadZebraProgramIndicators = dataStoreInfo => ({
 /**
  * Creates an action to set zebra program indicators.
  *
- * @param {Object} programIndicators - The program indicators to set.
- * @param {Array.<ProgramIndicator>} programIndicators.dashboard - The program indicators for the dashboard page.
- * @param {Array.<ProgramIndicator>} programIndicators.eventTracker - The program indicators for the event tracker page.
+ * @param {Array.<ProgramIndicator>} programIndicators - The program indicators to set.
  * @returns {Object} The action object with type `types.ZEBRA_PROGRAM_INDICATORS_SET` and payload.
  */
 export const setZebraProgramIndicators = programIndicators => ({

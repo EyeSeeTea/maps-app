@@ -81,20 +81,12 @@ const App = ({
         const dashboardDatastoreKeyParam = getUrlParameter(
             'dashboardDatastoreKey'
         );
-        const eventTrackerDatastoreKeyParam = getUrlParameter(
-            'eventTrackerDatastoreKey'
-        );
 
         if (currentAppParam === 'ZEBRA') {
-            if (
-                zebraNamespaceParam &&
-                dashboardDatastoreKeyParam &&
-                eventTrackerDatastoreKeyParam
-            ) {
+            if (zebraNamespaceParam && dashboardDatastoreKeyParam) {
                 loadZebraProgramIndicators({
                     zebraNamespace: zebraNamespaceParam,
                     dashboardKey: dashboardDatastoreKeyParam,
-                    eventTrackerKey: eventTrackerDatastoreKeyParam,
                 });
             } else {
                 setError(
