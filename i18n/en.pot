@@ -5,10 +5,15 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-09-05T07:40:47.023Z\n"
-"PO-Revision-Date: 2024-09-05T07:40:47.023Z\n"
+"POT-Creation-Date: 2024-09-09T16:14:42.495Z\n"
+"PO-Revision-Date: 2024-09-09T16:14:42.495Z\n"
 
 msgid "Failed to load organisation units."
+msgstr ""
+
+msgid ""
+"Failed to load program indicators using datastore information, please check "
+"the URL parameters."
 msgstr ""
 
 msgid "Maps"

@@ -6,10 +6,6 @@ import * as types from '../constants/actionTypes';
 import { setZebraProgramIndicators } from '../actions/zebraProgramIndicators';
 import { errorActionCreator } from '../actions/helpers';
 
-const MAPS_NAMESPACE = 'maps';
-const DASHBOARD_PROGRAM_INDICATORS_KEY = 'dashboard-program-indicators';
-const EVENT_TRACKER_PROGRAM_INDICATORS_KEY = 'event-tracker-program-indicators';
-
 /**
  * Epic to load zebra program indicators from data store.
  * This epic listens for actions of type `types.ZEBRA_PROGRAM_INDICATORS_LOAD` and,
@@ -22,34 +18,45 @@ const EVENT_TRACKER_PROGRAM_INDICATORS_KEY = 'event-tracker-program-indicators';
  * @returns {Observable} An observable stream of actions.
  */
 export const loadZebraProgramIndicators = action$ =>
-    action$.ofType(types.ZEBRA_PROGRAM_INDICATORS_LOAD).concatMap(async () => {
-        try {
-            const d2 = await getD2();
-            const hasNamespace = await d2.dataStore.has(MAPS_NAMESPACE);
+    action$
+        .ofType(types.ZEBRA_PROGRAM_INDICATORS_LOAD)
+        .concatMap(async action => {
+            try {
+                const {
+                    zebraNamespace,
+                    dashboardKey,
+                    eventTrackerKey,
+                } = action.payload;
+                const d2 = await getD2();
+                const hasNamespace = await d2.dataStore.has(zebraNamespace);
 
-            if (hasNamespace) {
-                const mapsNamespace = await d2.dataStore.get(MAPS_NAMESPACE);
+                if (hasNamespace) {
+                    const mapsNamespace = await d2.dataStore.get(
+                        zebraNamespace
+                    );
 
-                const dashboardProgramIndicators = await mapsNamespace.get(
-                    DASHBOARD_PROGRAM_INDICATORS_KEY
+                    const dashboardProgramIndicators = await mapsNamespace.get(
+                        dashboardKey
+                    );
+
+                    const eventTrackerProgramIndicators = await mapsNamespace.get(
+                        eventTrackerKey
+                    );
+
+                    return setZebraProgramIndicators({
+                        dashboard: dashboardProgramIndicators
+                            ? dashboardProgramIndicators
+                            : [],
+                        eventTracker: eventTrackerProgramIndicators
+                            ? eventTrackerProgramIndicators
+                            : [],
+                    });
+                }
+            } catch (e) {
+                return errorActionCreator(types.ZEBRA_PROGRAM_INDICATORS_ERROR)(
+                    e
                 );
-
-                const eventTrackerProgramIndicators = await mapsNamespace.get(
-                    EVENT_TRACKER_PROGRAM_INDICATORS_KEY
-                );
-
-                return setZebraProgramIndicators({
-                    dashboard: dashboardProgramIndicators
-                        ? dashboardProgramIndicators
-                        : [],
-                    eventTracker: eventTrackerProgramIndicators
-                        ? eventTrackerProgramIndicators
-                        : [],
-                });
             }
-        } catch (e) {
-            return errorActionCreator(types.ZEBRA_PROGRAM_INDICATORS_ERROR)(e);
-        }
-    });
+        });
 
 export default combineEpics(loadZebraProgramIndicators);

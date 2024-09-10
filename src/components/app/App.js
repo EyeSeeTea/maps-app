@@ -77,8 +77,32 @@ const App = ({
 
     useEffect(() => {
         const currentAppParam = getUrlParameter('currentApp');
+        const zebraNamespaceParam = getUrlParameter('zebraNamespace');
+        const dashboardDatastoreKeyParam = getUrlParameter(
+            'dashboardDatastoreKey'
+        );
+        const eventTrackerDatastoreKeyParam = getUrlParameter(
+            'eventTrackerDatastoreKey'
+        );
+
         if (currentAppParam === 'ZEBRA') {
-            loadZebraProgramIndicators();
+            if (
+                zebraNamespaceParam &&
+                dashboardDatastoreKeyParam &&
+                eventTrackerDatastoreKeyParam
+            ) {
+                loadZebraProgramIndicators({
+                    zebraNamespace: zebraNamespaceParam,
+                    dashboardKey: dashboardDatastoreKeyParam,
+                    eventTrackerKey: eventTrackerDatastoreKeyParam,
+                });
+            } else {
+                setError(
+                    i18n.t(
+                        'Failed to load program indicators using datastore information, please check the URL parameters.'
+                    )
+                );
+            }
         }
     }, []);
 
