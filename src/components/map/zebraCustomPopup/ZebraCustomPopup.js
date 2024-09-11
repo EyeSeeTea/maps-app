@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import i18n from '@dhis2/d2-i18n';
+import { isEmpty } from 'lodash';
 
 import './styles/ZebraCustomPopup.css';
 
@@ -37,7 +38,7 @@ const ZebraCustomPopup = (props, context) => {
 
     return createPortal(
         <div className="popup-data-container">
-            {popupType === 'DASHBOARD' && data ? (
+            {popupType === 'DASHBOARD' && data && !isEmpty(data) ? (
                 <div className="popup-data-content">
                     {Object.keys(data).map(incidentStatus => {
                         const { diseases, hazardTypes } = data[incidentStatus];

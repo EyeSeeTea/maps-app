@@ -187,7 +187,7 @@ export const loadZebraCustomPopupData = action$ =>
                     );
 
                     return setZebraCustomPopupData({
-                        data,
+                        data: data,
                         lastUpdatedDate: lastUpdatedDate,
                     });
                 } else {
