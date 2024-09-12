@@ -136,9 +136,9 @@ const App = ({
 
             const startDateString = getUrlParameter('startDate');
             const endDateString =
-                getUrlParameter('endDate') || startDateString
-                    ? DEFAULT_END_DATE
-                    : null;
+                getUrlParameter('endDate') && startDateString
+                    ? getUrlParameter('endDate')
+                    : DEFAULT_END_DATE;
 
             const errorDate = getStartEndDateError(
                 startDateString,
