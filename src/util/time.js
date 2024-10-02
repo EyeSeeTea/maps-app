@@ -126,14 +126,16 @@ export const getStartEndDateError = (startDateStr, endDateStr) => {
 };
 
 /**
- * Formats a date string in the format of mm/dd/yyyy
+ * Formats a date string in the format of MM/dd/YYYY at hh:mm
  * @param {String} dateString
  * @returns {String}
  */
-export const getFormatDateFromDateString = dateString => {
-    const date = new Date(dateString).toISOString().split('T')[0];
+export const getFormatDateTimeFromDateString = dateString => {
+    const [date, time] = new Date(dateString).toISOString().split('T');
     const [year, month, day] = date.split('-');
-    return `${month}/${day}/${year}`;
+    const [hour, minutes] = time.split(':');
+
+    return `${month}/${day}/${year} at ${hour}:${minutes}`;
 };
 
 /**
