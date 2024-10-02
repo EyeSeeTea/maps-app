@@ -5,7 +5,7 @@ import { getInstance as getD2 } from 'd2';
 import * as types from '../constants/actionTypes';
 import { setZebraCustomPopupData } from '../actions/zebraCustomPopupData';
 import { errorActionCreator } from '../actions/helpers';
-import { getFormatDateTimeFromDateString } from '../util/time';
+import { getFormatLocaleDateTimeStringFromDateString } from '../util/time';
 
 /**
  * Maps totals from rows to corresponding program indicators.
@@ -161,7 +161,9 @@ export const loadZebraCustomPopupData = action$ =>
 
                 const { lastAnalyticsTableSuccess } = d2.system.systemInfo;
                 const lastUpdatedDate = lastAnalyticsTableSuccess
-                    ? getFormatDateTimeFromDateString(lastAnalyticsTableSuccess)
+                    ? getFormatLocaleDateTimeStringFromDateString(
+                          lastAnalyticsTableSuccess
+                      )
                     : '';
 
                 if (

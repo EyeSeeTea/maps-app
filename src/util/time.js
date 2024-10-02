@@ -130,12 +130,15 @@ export const getStartEndDateError = (startDateStr, endDateStr) => {
  * @param {String} dateString
  * @returns {String}
  */
-export const getFormatDateTimeFromDateString = dateString => {
-    const [date, time] = new Date(dateString).toISOString().split('T');
-    const [year, month, day] = date.split('-');
-    const [hour, minutes] = time.split(':');
-
-    return `${month}/${day}/${year} at ${hour}:${minutes}`;
+export const getFormatLocaleDateTimeStringFromDateString = dateString => {
+    const date = new Date(dateString);
+    try {
+        return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.debug(e);
+        return '';
+    }
 };
 
 /**
