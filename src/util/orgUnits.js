@@ -62,7 +62,7 @@ export const fetchOrgUnitFields = () =>
  */
 export const fetchOrgUnitsByIds = ids =>
     apiFetch(
-        `/organisationUnits.json?fields=id,path,parent,displayName,children[id,path,displayName,children::isNotEmpty]&filter=id:in:[${ids.join(
+        `/organisationUnits.json?fields=id,level,path,parent,displayName,children[id,level,path,displayName,children::isNotEmpty]&filter=id:in:[${ids.join(
             ','
         )}]`
     ).then(({ organisationUnits }) => organisationUnits);

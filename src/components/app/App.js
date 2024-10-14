@@ -38,6 +38,10 @@ import { fetchOrgUnitsByIds } from '../../util/orgUnits';
 import { getStartEndDateError } from '../../util/time';
 import { DEFAULT_END_DATE } from '../../constants/layers';
 import { loadZebraProgramIndicators } from '../../actions/zebraProgramIndicators';
+import {
+    setOrgUnitsInLayerFilter,
+    cleanOrgUnitsInLayerFilter,
+} from '../../actions/zebraCustomOrgUnitsInLayer';
 
 import styles from './styles/App.module.css';
 
@@ -51,6 +55,8 @@ const App = ({
     tOpenProgramIndicatorMapWithOrgUnitsInLayerInStartEndDate,
     cleanCurrentAppInfo,
     setCurrentAppInfo,
+    setOrgUnitsInLayerFilter,
+    cleanOrgUnitsInLayerFilter,
     loadZebraProgramIndicators,
     currentAppInfo,
 }) => {
@@ -66,13 +72,21 @@ const App = ({
         const orgUnitsIds = orgUnits ? orgUnits?.split(',') : undefined;
         if (orgUnitsIds?.length) {
             fetchOrgUnitsByIds(orgUnitsIds)
-                .then(setOrgUnitsInLayer)
+                .then(orgUnitsData => {
+                    setOrgUnitsInLayer(orgUnitsData);
+                    setOrgUnitsInLayerFilter(orgUnitsData);
+                })
                 .catch(() =>
                     setError(i18n.t('Failed to load organisation units.'))
                 );
         } else {
             setOrgUnitsInLayer([]);
+            setOrgUnitsInLayerFilter([]);
         }
+
+        return () => {
+            cleanOrgUnitsInLayerFilter && cleanOrgUnitsInLayerFilter();
+        };
     }, []);
 
     useEffect(() => {
@@ -223,7 +237,7 @@ const App = ({
                 )}
                 <BottomPanel />
                 <LayerEdit />
-                {currentAppInfo?.app === 'ZEBRA' ? null : <ContextMenu />}
+                <ContextMenu />
                 <AlertStack />
                 <DataDownloadDialog />
                 <OpenAsMapDialog />
@@ -245,6 +259,8 @@ App.propTypes = {
     loadZebraProgramIndicators: PropTypes.func,
     cleanCurrentAppInfo: PropTypes.func,
     setCurrentAppInfo: PropTypes.func,
+    cleanOrgUnitsInLayerFilter: PropTypes.func,
+    setOrgUnitsInLayerFilter: PropTypes.func,
     currentAppInfo: PropTypes.shape({
         app: PropTypes.string.isRequired,
         page: PropTypes.string,
@@ -264,6 +280,8 @@ export default connect(
         tSetExternalLayers,
         tSetOrgUnitTree,
         setCurrentAppInfo,
+        setOrgUnitsInLayerFilter,
+        cleanOrgUnitsInLayerFilter,
         cleanCurrentAppInfo,
         loadZebraProgramIndicators,
     }
