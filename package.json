@@ -1,11 +1,11 @@
 {
-    "name": "maps-app",
+    "name": "zebra-custom-maps-app",
     "version": "1.23.16",
-    "description": "DHIS2 Maps",
+    "description": "Zebra custom DHIS2 Maps",
     "main": "src/app.js",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/dhis2/maps-app.git"
+        "url": "git+https://github.com/eyeseetea/maps-app.git"
     },
     "license": "BSD-3-Clause",
     "author": "Bjørn Sandvik",
@@ -28,8 +28,8 @@
         "start:nobrowser": "BROWSER=none yarn start",
         "cy:open": "start-server-and-test 'yarn start:nobrowser' http://localhost:8082 'yarn cypress open --env networkMode=live'",
         "cy:run": "start-server-and-test 'yarn start:nobrowser' http://localhost:8082 'yarn cypress run --env networkMode=live'",
-        "prebuild": "yarn test && yarn localize && yarn manifest && rm -rf build && mkdir build && cp -r public/* ./build/",
-        "build": "NODE_ENV=production webpack",
+        "prebuild": "yarn test && yarn localize && yarn manifest && rm -rf build/ && mkdir build && cp -r public/* ./build/",
+        "build": "NODE_ENV=production DHIS2_BASE_URL='' webpack && rm -f $npm_package_name.zip && cd build && zip --quiet -r ../$npm_package_name.zip *",
         "build:netlify": "yarn build && d2-manifest package.json build/manifest.webapp --manifest.activities.dhis.href=\"https://play.dhis2.org/dev\"",
         "manifest": "d2-manifest package.json public/manifest.webapp",
         "lint": "eslint ./src",
@@ -128,20 +128,20 @@
         "webpack-dev-server": "^3.11.2"
     },
     "manifest.webapp": {
-        "name": "DHIS2 Maps",
+        "name": "Zebra custom DHIS2 Maps",
         "icons": {
             "48": "icon.png"
         },
         "appType": "APP",
-        "core_app": true,
-        "short_name": "maps",
+        "core_app": false,
+        "short_name": "zebra-custom-maps-app",
         "developer": {
             "url": "",
             "name": "Bjørn Sandvik"
         },
         "activities": {
             "dhis": {
-                "href": ".."
+                "href": "*"
             }
         }
     }

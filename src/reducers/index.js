@@ -35,6 +35,9 @@ import ui from './ui';
 import trackedEntityTypes from './trackedEntityTypes';
 import dataDownload from './dataDownload';
 import feature from './feature';
+import currentAppInfo from './currentAppInfo';
+import zebraCustomPopupData from './zebraCustomPopupData';
+import zebraProgramIndicators from './zebraProgramIndicators';
 
 export default combineReducers({
     aggregations,
@@ -73,4 +76,7 @@ export default combineReducers({
     trackedEntityTypes,
     dataDownload,
     feature,
+    currentAppInfo,
+    zebraCustomPopupData,
+    zebraProgramIndicators,
 });

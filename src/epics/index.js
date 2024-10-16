@@ -15,6 +15,8 @@ import programEpics from './programs';
 import dimensionEpics from './dimensions';
 import trackedEntitiesEpics from './trackedEntities';
 import dataDownloadEpics from './dataDownload';
+import zebraCustomPopupData from './zebraCustomPopupData';
+import zebraProgramIndicators from './zebraProgramIndicators';
 
 const errorEpic = action$ =>
     action$
@@ -34,5 +36,7 @@ export default combineEpics(
     programEpics,
     dimensionEpics,
     trackedEntitiesEpics,
-    dataDownloadEpics
+    dataDownloadEpics,
+    zebraCustomPopupData,
+    zebraProgramIndicators
 );

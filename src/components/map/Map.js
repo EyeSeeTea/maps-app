@@ -7,6 +7,7 @@ import EventLayer from './layers/EventLayer';
 import TrackedEntityLayer from './layers/TrackedEntityLayer';
 import FacilityLayer from './layers/FacilityLayer';
 import ThematicLayer from './layers/ThematicLayer';
+import ZebraCustomThematicLayer from './layers/ZebraCustomThematicLayer';
 import OrgUnitLayer from './layers/OrgUnitLayer';
 import EarthEngineLayer from './layers/earthEngine/EarthEngineLayer';
 import ExternalLayer from './layers/ExternalLayer';
@@ -20,6 +21,7 @@ const layerType = {
     trackedEntity: TrackedEntityLayer,
     facility: FacilityLayer,
     thematic: ThematicLayer,
+    zebraCustomThematic: ZebraCustomThematicLayer,
     orgUnit: OrgUnitLayer,
     earthEngine: EarthEngineLayer,
     external: ExternalLayer,
@@ -42,6 +44,10 @@ class Map extends Component {
         closeCoordinatePopup: PropTypes.func,
         openContextMenu: PropTypes.func.isRequired,
         setAggregations: PropTypes.func,
+        currentAppInfo: PropTypes.shape({
+            app: PropTypes.string.isRequired,
+            page: PropTypes.string,
+        }),
     };
 
     static defaultProps = {
@@ -142,6 +148,7 @@ class Map extends Component {
             closeCoordinatePopup,
             openContextMenu,
             setAggregations,
+            currentAppInfo,
         } = this.props;
         const { map } = this.state;
 
@@ -152,7 +159,10 @@ class Map extends Component {
                 {map && (
                     <Fragment>
                         {overlays.map((config, index) => {
-                            const Overlay = layerType[config.layer] || Layer;
+                            const Overlay =
+                                currentAppInfo?.app === 'ZEBRA'
+                                    ? layerType.zebraCustomThematic
+                                    : layerType[config.layer] || Layer;
                             const highlight =
                                 feature && feature.layerId === config.id
                                     ? feature

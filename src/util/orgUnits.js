@@ -54,6 +54,19 @@ export const fetchOrgUnitFields = () =>
         `/attributes.json?fields=id,name&filter=valueType:eq:GEOJSON&filter=organisationUnitAttribute:eq:true`
     ).then(({ attributes }) => attributes);
 
+/**
+ * Fetches organisation units by their IDs.
+ *
+ * @param {Array.<string>} ids - The IDs of the organisation units to fetch.
+ * @returns {Promise<Array.<Object>>} A promise that resolves to an array of organisation units.
+ */
+export const fetchOrgUnitsByIds = ids =>
+    apiFetch(
+        `/organisationUnits.json?fields=id,path,parent,displayName,children[id,path,displayName,children::isNotEmpty]&filter=id:in:[${ids.join(
+            ','
+        )}]`
+    ).then(({ organisationUnits }) => organisationUnits);
+
 export const filterPointFacilities = data => data.filter(d => d.ty === 1);
 
 export const getOrgUnitStyle = (dimensions, groupSet) =>
