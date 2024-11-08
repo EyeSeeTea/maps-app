@@ -1,4 +1,5 @@
 import i18n from '@dhis2/d2-i18n';
+import moment from 'moment';
 
 const DEFAULT_LOCALE = 'en';
 
@@ -135,6 +136,34 @@ export const getFormatDateFromDateString = dateString => {
     const [year, month, day] = date.split('-');
     return `${month}/${day}/${year}`;
 };
+
+/**
+ * Get ISO date as locale date string
+ * @param {String} dateString
+ * @returns {Date}
+ */
+export function getISODateAsLocaleDateString(dateString) {
+    return moment
+        .utc(dateString)
+        .local()
+        .toDate();
+}
+
+/**
+ * Get date time string as locale date time string
+ * @param {String} dateString
+ * @returns {string}
+ */
+export function getDateAsLocaleDateTimeString(dateString) {
+    try {
+        return moment(dateString)
+            .local()
+            .toDate()
+            .toString();
+    } catch (e) {
+        return '';
+    }
+}
 
 /**
  * Returns the year of the date, or the current year of no date is passed
