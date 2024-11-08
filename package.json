@@ -29,7 +29,7 @@
         "cy:open": "start-server-and-test 'yarn start:nobrowser' http://localhost:8082 'yarn cypress open --env networkMode=live'",
         "cy:run": "start-server-and-test 'yarn start:nobrowser' http://localhost:8082 'yarn cypress run --env networkMode=live'",
         "prebuild": "yarn test && yarn localize && yarn manifest && rm -rf build/ && mkdir build && cp -r public/* ./build/",
-        "build": "NODE_ENV=production DHIS2_BASE_URL='https://metadata.eyeseetea.com/rsl-zebra' webpack && rm -f $npm_package_name.zip && cd build && zip --quiet -r ../$npm_package_name.zip *",
+        "build": "NODE_ENV=production DHIS2_BASE_URL='' webpack && rm -f $npm_package_name.zip && cd build && zip --quiet -r ../$npm_package_name.zip *",
         "build:netlify": "yarn build && d2-manifest package.json build/manifest.webapp --manifest.activities.dhis.href=\"https://play.dhis2.org/dev\"",
         "manifest": "d2-manifest package.json public/manifest.webapp",
         "lint": "eslint ./src",
