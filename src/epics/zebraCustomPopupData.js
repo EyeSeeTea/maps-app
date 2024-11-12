@@ -162,16 +162,16 @@ export const loadZebraCustomPopupData = action$ =>
                 const d2 = await getD2();
 
                 const {
-                    lastAnalyticsTableSuccess,
                     serverTimeZoneId,
+                    lastAnalyticsTablePartitionSuccess,
                 } = d2.system.systemInfo;
 
                 const lastUpdatedDate =
-                    lastAnalyticsTableSuccess && serverTimeZoneId
+                    lastAnalyticsTablePartitionSuccess && serverTimeZoneId
                         ? getDateAsLocaleDateTimeString(
                               moment
                                   .tz(
-                                      lastAnalyticsTableSuccess,
+                                      lastAnalyticsTablePartitionSuccess,
                                       serverTimeZoneId
                                   )
                                   .utc()
