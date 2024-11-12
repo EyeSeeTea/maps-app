@@ -75,7 +75,8 @@ export const tOpenMap = (mapId, keyDefaultBaseMap, dataEngine) => async (
  * @param {string} mapId - The ID of the map to load.
  * @param {string} keyDefaultBaseMap - The key for the default base map.
  * @param {DataEngine} dataEngine - DataEngine instance object.
- * @param {Array.<string>|undefined} [orgUnitsInLayer] - Optional. List of organization unit ids to display in the map layer.
+ * @param {Array<Object>|undefined} [orgUnitsInLayer] - Optional. List of organization units to display in the map layer, where each object contains
+ *                                             properties such as `id`, `level`, `parent`, `displayName`, `path`, and `children`.
  * @param {object|undefined} [programIndicatorData] - Optional. Program indicator data, containing the properties `id`, `name`, `programId`, and `programName`.
  * @param {string} [programIndicatorData.id] - The ID of the program indicator.
  * @param {string} [programIndicatorData.name] - The name of the program indicator.
