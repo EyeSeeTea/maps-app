@@ -1,11 +1,13 @@
 import { combineEpics } from 'redux-observable';
 import 'rxjs/add/operator/concatMap';
 import { getInstance as getD2 } from 'd2';
+import moment from 'moment';
+import 'moment-timezone';
 
 import * as types from '../constants/actionTypes';
 import { setZebraCustomPopupData } from '../actions/zebraCustomPopupData';
 import { errorActionCreator } from '../actions/helpers';
-import { getFormatLocaleDateTimeStringFromDateString } from '../util/time';
+import { getDateAsLocaleDateTimeString } from '../util/time';
 
 /**
  * Maps totals from rows to corresponding program indicators.
@@ -159,12 +161,23 @@ export const loadZebraCustomPopupData = action$ =>
 
                 const d2 = await getD2();
 
-                const { lastAnalyticsTableSuccess } = d2.system.systemInfo;
-                const lastUpdatedDate = lastAnalyticsTableSuccess
-                    ? getFormatLocaleDateTimeStringFromDateString(
-                          lastAnalyticsTableSuccess
-                      )
-                    : '';
+                const {
+                    serverTimeZoneId,
+                    lastAnalyticsTablePartitionSuccess,
+                } = d2.system.systemInfo;
+
+                const lastUpdatedDate =
+                    lastAnalyticsTablePartitionSuccess && serverTimeZoneId
+                        ? getDateAsLocaleDateTimeString(
+                              moment
+                                  .tz(
+                                      lastAnalyticsTablePartitionSuccess,
+                                      serverTimeZoneId
+                                  )
+                                  .utc()
+                                  .toString()
+                          )
+                        : '';
 
                 if (
                     popupType === 'DASHBOARD' &&
