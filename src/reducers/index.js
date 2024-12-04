@@ -38,6 +38,7 @@ import feature from './feature';
 import currentAppInfo from './currentAppInfo';
 import zebraCustomPopupData from './zebraCustomPopupData';
 import zebraProgramIndicators from './zebraProgramIndicators';
+import zebraCustomOrgUnitsInLayer from './zebraCustomOrgUnitsInLayer';
 
 export default combineReducers({
     aggregations,
@@ -79,4 +80,5 @@ export default combineReducers({
     currentAppInfo,
     zebraCustomPopupData,
     zebraProgramIndicators,
+    zebraCustomOrgUnitsInLayer,
 });

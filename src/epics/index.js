@@ -17,6 +17,7 @@ import trackedEntitiesEpics from './trackedEntities';
 import dataDownloadEpics from './dataDownload';
 import zebraCustomPopupData from './zebraCustomPopupData';
 import zebraProgramIndicators from './zebraProgramIndicators';
+import zebraCustomOrgUnitsInLayer from './zebraCustomOrgUnitsInLayer';
 
 const errorEpic = action$ =>
     action$
@@ -38,5 +39,6 @@ export default combineEpics(
     trackedEntitiesEpics,
     dataDownloadEpics,
     zebraCustomPopupData,
-    zebraProgramIndicators
+    zebraProgramIndicators,
+    zebraCustomOrgUnitsInLayer
 );

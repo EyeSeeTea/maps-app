@@ -17,6 +17,7 @@ import {
     showEarthEngineValue,
 } from '../../actions/map';
 import { drillLayer } from '../../actions/layers';
+import { zebraCustomDrillLayer } from '../../actions/zebraCustomOrgUnitsInLayer';
 import { setOrgUnitProfile } from '../../actions/orgUnits';
 import { FACILITY_LAYER, EARTH_ENGINE_LAYER } from '../../constants/layers';
 import styles from './styles/ContextMenu.module.css';
@@ -37,6 +38,8 @@ const ContextMenu = props => {
         showEarthEngineValue,
         drillLayer,
         setOrgUnitProfile,
+        zebraCustomDrillLayer,
+        currentAppInfo,
     } = props;
 
     if (!position) {
@@ -53,20 +56,40 @@ const ContextMenu = props => {
 
         switch (item) {
             case 'drill_up':
-                drillLayer(
-                    layerId,
-                    attr.grandParentId,
-                    attr.grandParentParentGraph,
-                    parseInt(attr.level) - 1
-                );
+                if (currentAppInfo?.app === 'ZEBRA') {
+                    zebraCustomDrillLayer(
+                        layerId,
+                        attr.grandParentId,
+                        attr.grandParentParentGraph,
+                        parseInt(attr.level) - 1
+                    );
+                } else {
+                    drillLayer(
+                        layerId,
+                        attr.grandParentId,
+                        attr.grandParentParentGraph,
+                        parseInt(attr.level) - 1
+                    );
+                }
+
                 break;
             case 'drill_down':
-                drillLayer(
-                    layerId,
-                    attr.id,
-                    attr.parentGraph,
-                    parseInt(attr.level) + 1
-                );
+                if (currentAppInfo?.app === 'ZEBRA') {
+                    zebraCustomDrillLayer(
+                        layerId,
+                        attr.id,
+                        attr.parentGraph,
+                        parseInt(attr.level) + 1
+                    );
+                } else {
+                    drillLayer(
+                        layerId,
+                        attr.id,
+                        attr.parentGraph,
+                        parseInt(attr.level) + 1
+                    );
+                }
+
                 break;
             case 'show_info':
                 setOrgUnitProfile(attr.id);
@@ -97,25 +120,31 @@ const ContextMenu = props => {
             >
                 <div className={styles.menu}>
                     <Menu dense>
-                        {layerType !== FACILITY_LAYER && feature && (
-                            <MenuItem
-                                label={i18n.t('Drill up one level')}
-                                icon={<IconArrowUp16 />}
-                                disabled={!attr.hasCoordinatesUp}
-                                onClick={() => onClick('drill_up')}
-                            />
-                        )}
+                        {layerType !== FACILITY_LAYER &&
+                            feature &&
+                            (attr.level === 3 ||
+                                currentAppInfo?.app !== 'ZEBRA') && (
+                                <MenuItem
+                                    label={i18n.t('Drill up one level')}
+                                    icon={<IconArrowUp16 />}
+                                    disabled={!attr.hasCoordinatesUp}
+                                    onClick={() => onClick('drill_up')}
+                                />
+                            )}
 
-                        {layerType !== FACILITY_LAYER && feature && (
-                            <MenuItem
-                                label={i18n.t('Drill down one level')}
-                                icon={<IconArrowDown16 />}
-                                disabled={!attr.hasCoordinatesDown}
-                                onClick={() => onClick('drill_down')}
-                            />
-                        )}
+                        {layerType !== FACILITY_LAYER &&
+                            feature &&
+                            (attr.level === 2 ||
+                                currentAppInfo?.app !== 'ZEBRA') && (
+                                <MenuItem
+                                    label={i18n.t('Drill down one level')}
+                                    icon={<IconArrowDown16 />}
+                                    disabled={!attr.hasCoordinatesDown}
+                                    onClick={() => onClick('drill_down')}
+                                />
+                            )}
 
-                        {feature && (
+                        {feature && currentAppInfo?.app !== 'ZEBRA' && (
                             <MenuItem
                                 label={i18n.t('View profile')}
                                 icon={<IconInfo16 />}
@@ -123,7 +152,7 @@ const ContextMenu = props => {
                             />
                         )}
 
-                        {coordinates && (
+                        {coordinates && currentAppInfo?.app !== 'ZEBRA' && (
                             <MenuItem
                                 label={i18n.t('Show longitude/latitude')}
                                 icon={<IconLocation16 />}
@@ -164,14 +193,20 @@ ContextMenu.propTypes = {
     showEarthEngineValue: PropTypes.func.isRequired,
     drillLayer: PropTypes.func.isRequired,
     setOrgUnitProfile: PropTypes.func.isRequired,
+    zebraCustomDrillLayer: PropTypes.func,
+    currentAppInfo: PropTypes.shape({
+        app: PropTypes.string.isRequired,
+        page: PropTypes.string,
+    }),
 };
 
 export default connect(
-    ({ contextMenu, map }) => ({
+    ({ contextMenu, map, currentAppInfo }) => ({
         ...contextMenu,
         earthEngineLayers: map.mapViews.filter(
             view => view.layer === EARTH_ENGINE_LAYER
         ),
+        currentAppInfo: currentAppInfo,
     }),
     {
         closeContextMenu,
@@ -179,5 +214,6 @@ export default connect(
         showEarthEngineValue,
         drillLayer,
         setOrgUnitProfile,
+        zebraCustomDrillLayer,
     }
 )(ContextMenu);

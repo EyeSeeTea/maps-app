@@ -127,14 +127,19 @@ export const getStartEndDateError = (startDateStr, endDateStr) => {
 };
 
 /**
- * Formats a date string in the format of mm/dd/yyyy
+ * Formats a date string in the format of MM/dd/YYYY at hh:mm
  * @param {String} dateString
  * @returns {String}
  */
-export const getFormatDateFromDateString = dateString => {
-    const date = new Date(dateString).toISOString().split('T')[0];
-    const [year, month, day] = date.split('-');
-    return `${month}/${day}/${year}`;
+export const getFormatLocaleDateTimeStringFromDateString = dateString => {
+    const date = new Date(dateString);
+    try {
+        return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.debug(e);
+        return '';
+    }
 };
 
 /**
