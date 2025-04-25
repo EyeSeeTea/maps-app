@@ -45,7 +45,6 @@ class ZebraCustomThematicLayer extends Layer {
                 id: PropTypes.string,
                 name: PropTypes.string,
                 disease: PropTypes.string,
-                hazardType: PropTypes.string,
                 incidentStatus: PropTypes.string,
             })
         ),

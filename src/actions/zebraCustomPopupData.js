@@ -18,7 +18,7 @@ export const loadZebraCustomPopupData = filters => ({
 
 /**
  * @typedef {Object} CustomPopupData
- * @property {Object} data - The data to be set in the custom popup, where each key is an incident status and each value is an object with diseases and hazard types.
+ * @property {Object} data - The data to be set in the custom popup, where each key is an incident status and each value is an object with diseases.
  * @property {string} lastUpdatedDate - The date when the data was last updated, formatted as a string MM/DD/YYY.
  */
 /**

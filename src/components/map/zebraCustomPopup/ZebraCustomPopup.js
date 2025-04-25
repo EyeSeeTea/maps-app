@@ -41,7 +41,7 @@ const ZebraCustomPopup = (props, context) => {
             {popupType === 'DASHBOARD' && data && !isEmpty(data) ? (
                 <div className="popup-data-content">
                     {Object.keys(data).map(incidentStatus => {
-                        const { diseases, hazardTypes } = data[incidentStatus];
+                        const { diseases } = data[incidentStatus];
 
                         return (
                             <div
@@ -57,14 +57,6 @@ const ZebraCustomPopup = (props, context) => {
                                         className="popup-data-incident-text"
                                     >
                                         {diseases[disease]} {disease}
-                                    </span>
-                                ))}
-                                {Object.keys(hazardTypes).map(hazardType => (
-                                    <span
-                                        key={hazardType}
-                                        className="popup-data-incident-text"
-                                    >
-                                        {hazardTypes[hazardType]} {hazardType}
                                     </span>
                                 ))}
                             </div>

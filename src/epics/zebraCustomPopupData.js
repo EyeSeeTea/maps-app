@@ -12,7 +12,7 @@ import { getDateAsLocaleDateTimeString } from '../util/time';
 /**
  * Maps totals from rows to corresponding program indicators.
  * @param {Array<Object>} programIndicators - An array of program indicator objects, where each object contains
- *                                             properties such as `id`, `name`, `disease`, `incidentStatus`, and `hazardType`.
+ *                                             properties such as `id`, `name`, `disease`, and `incidentStatus`.
  * @param {Array<Array<any>>} rows - An array of rows where each row is an array where the first element is an ID,
  *                                   and subsequent elements include a total value.
  * @returns {Array<Object>} An array of objects where each object contains the properties of a program indicator
@@ -43,7 +43,6 @@ function mapTotalInRowsToCorrespondingIndicator(programIndicators, rows) {
                 name: indicator.name,
                 disease: indicator.disease,
                 incidentStatus: indicator.incidentStatus,
-                hazardType: indicator.hazardType,
                 total: total ? parseFloat(total) : 0,
             },
         ];
@@ -64,7 +63,7 @@ function extractUniqueAndFilteredValuesNotAll(items, property) {
 
 /**
  * Filters and aggregates values from an array of objects based on a specified property.
- * @param {Array<Object>} items - An array of objects to process.
+ * @param {Array<Object>} rows - An array of objects to process.
  * @param {string} filterProperty - The property name to filter items by.
  * @param {Array<string>} allowedValues - An array of values to include in the results.
  * @returns {Object} An object where keys are the unique values of the filterProperty and values are the totals.
@@ -82,16 +81,13 @@ function getTotalsByProperty(rows, filterProperty, allowedValues) {
 }
 
 /**
- * Get totals value data in analyticsDataRows using programIndicators to clasify by incident status and inside by disease and hazard type.
+ * Get totals value data in analyticsDataRows using programIndicators to clasify by incident status and inside by disease.
  * @param {Array<Object>} programIndicators - An array of program indicator objects used to map totals.
  * @param {Array<Object>} analyticsDataRows - An array of analytics data rows containing total values.
  * @returns {Object} An object where each key is an incident status and its value is an object containing
- *                   totals for diseases and hazard types associated with that incident status.
+ *                   totals for diseases associated with that incident status.
  */
-function getDiseaseOrHazardTypeDataByIncidentStatus(
-    programIndicators,
-    analyticsDataRows
-) {
+function getDiseaseDataByIncidentStatus(programIndicators, analyticsDataRows) {
     const indicatorsWithTotals =
         mapTotalInRowsToCorrespondingIndicator(
             programIndicators,
@@ -108,11 +104,6 @@ function getDiseaseOrHazardTypeDataByIncidentStatus(
         'incidentStatus'
     );
 
-    const hazardTypes = extractUniqueAndFilteredValuesNotAll(
-        indicatorsWithTotals,
-        'hazardType'
-    );
-
     return incidentStatus.reduce((acc, status) => {
         const statusRows = indicatorsWithTotals.filter(
             row => row.incidentStatus === status
@@ -124,17 +115,10 @@ function getDiseaseOrHazardTypeDataByIncidentStatus(
             diseases
         );
 
-        const hazardTypeTotals = getTotalsByProperty(
-            statusRows,
-            'hazardType',
-            hazardTypes
-        );
-
         return {
             ...acc,
             [status]: {
                 diseases: diseaseTotals,
-                hazardTypes: hazardTypeTotals,
             },
         };
     }, {});
@@ -196,7 +180,7 @@ export const loadZebraCustomPopupData = action$ =>
                         analyticsRequest
                     );
 
-                    const data = getDiseaseOrHazardTypeDataByIncidentStatus(
+                    const data = getDiseaseDataByIncidentStatus(
                         programIndicators,
                         analyticsData.rows
                     );
