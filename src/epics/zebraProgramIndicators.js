@@ -17,7 +17,7 @@ export const loadZebraProgramIndicators = action$ =>
         .ofType(types.ZEBRA_PROGRAM_INDICATORS_LOAD)
         .concatMap(async action => {
             try {
-                const { zebraNamespace, dashboardKey } = action.payload;
+                const { zebraNamespace, programIndicatorKey } = action.payload;
                 const d2 = await getD2();
                 const hasNamespace = await d2.dataStore.has(zebraNamespace);
 
@@ -26,14 +26,12 @@ export const loadZebraProgramIndicators = action$ =>
                         zebraNamespace
                     );
 
-                    const dashboardProgramIndicators = await mapsNamespace.get(
-                        dashboardKey
+                    const programIndicators = await mapsNamespace.get(
+                        programIndicatorKey
                     );
 
                     return setZebraProgramIndicators(
-                        dashboardProgramIndicators
-                            ? dashboardProgramIndicators
-                            : []
+                        programIndicators ? programIndicators : []
                     );
                 }
             } catch (e) {

@@ -92,15 +92,15 @@ const App = ({
     useEffect(() => {
         const currentAppParam = getUrlParameter('currentApp');
         const zebraNamespaceParam = getUrlParameter('zebraNamespace');
-        const dashboardDatastoreKeyParam = getUrlParameter(
-            'dashboardDatastoreKey'
+        const mapProgramIndicatorDatastoreParam = getUrlParameter(
+            'mapProgramIndicatorDatastoreKey'
         );
 
         if (currentAppParam === 'ZEBRA') {
-            if (zebraNamespaceParam && dashboardDatastoreKeyParam) {
+            if (zebraNamespaceParam && mapProgramIndicatorDatastoreParam) {
                 loadZebraProgramIndicators({
                     zebraNamespace: zebraNamespaceParam,
-                    dashboardKey: dashboardDatastoreKeyParam,
+                    programIndicatorKey: mapProgramIndicatorDatastoreParam,
                 });
             } else {
                 setError(
