@@ -5,6 +5,7 @@ import { getInstance as getD2 } from 'd2';
 import * as types from '../constants/actionTypes';
 import { setZebraProgramIndicators } from '../actions/zebraProgramIndicators';
 import { errorActionCreator } from '../actions/helpers';
+import { ZEBRA_PAGE } from '../constants/zebraPage';
 
 /**
  * Epic to load zebra program indicators from data store.
@@ -17,7 +18,13 @@ export const loadZebraProgramIndicators = action$ =>
         .ofType(types.ZEBRA_PROGRAM_INDICATORS_LOAD)
         .concatMap(async action => {
             try {
-                const { zebraNamespace, programIndicatorKey } = action.payload;
+                const {
+                    zebraNamespace,
+                    programIndicatorKey,
+                    page,
+                    diseaseCode,
+                } = action.payload;
+
                 const d2 = await getD2();
                 const hasNamespace = await d2.dataStore.has(zebraNamespace);
 
@@ -26,13 +33,20 @@ export const loadZebraProgramIndicators = action$ =>
                         zebraNamespace
                     );
 
-                    const programIndicators = await mapsNamespace.get(
-                        programIndicatorKey
-                    );
+                    const allProgramIndicators =
+                        (await mapsNamespace.get(programIndicatorKey)) || [];
 
-                    return setZebraProgramIndicators(
-                        programIndicators ? programIndicators : []
-                    );
+                    if (page === ZEBRA_PAGE.EVENT_TRACKER) {
+                        const programIndicators = allProgramIndicators.filter(
+                            programIndicator =>
+                                programIndicator.disease === diseaseCode
+                        );
+                        return setZebraProgramIndicators(
+                            programIndicators || []
+                        );
+                    }
+
+                    return setZebraProgramIndicators(allProgramIndicators);
                 }
             } catch (e) {
                 return errorActionCreator(types.ZEBRA_PROGRAM_INDICATORS_ERROR)(

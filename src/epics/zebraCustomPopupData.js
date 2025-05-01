@@ -8,11 +8,12 @@ import * as types from '../constants/actionTypes';
 import { setZebraCustomPopupData } from '../actions/zebraCustomPopupData';
 import { errorActionCreator } from '../actions/helpers';
 import { getDateAsLocaleDateTimeString } from '../util/time';
+import { ZEBRA_PAGE } from '../constants/zebraPage';
 
 /**
  * Maps totals from rows to corresponding program indicators.
  * @param {Array<Object>} programIndicators - An array of program indicator objects, where each object contains
- *                                             properties such as `id`, `name`, `disease`, and `incidentStatus`.
+ *                                             properties such as `id`, `name`, `disease`, `incidentStatus`, `dataSource`.
  * @param {Array<Array<any>>} rows - An array of rows where each row is an array where the first element is an ID,
  *                                   and subsequent elements include a total value.
  * @returns {Array<Object>} An array of objects where each object contains the properties of a program indicator
@@ -44,6 +45,7 @@ function mapTotalInRowsToCorrespondingIndicator(programIndicators, rows) {
                 disease: indicator.disease,
                 incidentStatus: indicator.incidentStatus,
                 total: total ? parseFloat(total) : 0,
+                dataSource: indicator.dataSource,
             },
         ];
     });
@@ -125,6 +127,31 @@ function getDiseaseDataByIncidentStatus(programIndicators, analyticsDataRows) {
 }
 
 /**
+ * Get totals value data in analyticsDataRows using programIndicators to clasify by dataSource.
+ * @param {Array<Object>} programIndicators - An array of program indicator objects used to map totals.
+ * @param {Array<Object>} analyticsDataRows - An array of analytics data rows containing total values.
+ * @returns {Object} An object where each key is the displa label (dataSource/total name) and its value is the total count
+ */
+function getTotalsByDataSource(programIndicators, analyticsDataRows) {
+    const indicatorsWithTotals =
+        mapTotalInRowsToCorrespondingIndicator(
+            programIndicators,
+            analyticsDataRows
+        ) || [];
+
+    const total = indicatorsWithTotals.find(total => !total.dataSource);
+
+    const dataSources = extractUniqueAndFilteredValuesNotAll(
+        indicatorsWithTotals,
+        'dataSource'
+    );
+
+    return {
+        [total.name]: total.total,
+        ...getTotalsByProperty(indicatorsWithTotals, 'dataSource', dataSources),
+    };
+}
+/**
  * Epic that handles loading custom popup data for the Zebra module.
  * @param {Observable} action$ - The stream of actions from which to extract the relevant actions.
  * @returns {Observable} An observable that emits the `setZebraCustomPopupData` action with the processed data, or
@@ -164,7 +191,6 @@ export const loadZebraCustomPopupData = action$ =>
                         : '';
 
                 if (
-                    popupType === 'DASHBOARD' &&
                     programIndicators?.length > 0 &&
                     orgUnits?.length > 0 &&
                     startDate &&
@@ -180,10 +206,16 @@ export const loadZebraCustomPopupData = action$ =>
                         analyticsRequest
                     );
 
-                    const data = getDiseaseDataByIncidentStatus(
-                        programIndicators,
-                        analyticsData.rows
-                    );
+                    const data =
+                        popupType === ZEBRA_PAGE.DASHBOARD
+                            ? getDiseaseDataByIncidentStatus(
+                                  programIndicators,
+                                  analyticsData.rows
+                              )
+                            : getTotalsByDataSource(
+                                  programIndicators,
+                                  analyticsData.rows
+                              );
 
                     return setZebraCustomPopupData({
                         data: data,

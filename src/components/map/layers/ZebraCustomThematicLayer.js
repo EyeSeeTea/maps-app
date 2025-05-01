@@ -46,6 +46,7 @@ class ZebraCustomThematicLayer extends Layer {
                 name: PropTypes.string,
                 disease: PropTypes.string,
                 incidentStatus: PropTypes.string,
+                dataSource: PropTypes.string,
             })
         ),
         loadZebraCustomPopupData: PropTypes.func.isRequired,
