@@ -8,11 +8,12 @@ import * as types from '../constants/actionTypes';
 import { setZebraCustomPopupData } from '../actions/zebraCustomPopupData';
 import { errorActionCreator } from '../actions/helpers';
 import { getDateAsLocaleDateTimeString } from '../util/time';
+import { ZEBRA_PAGE } from '../constants/zebraPage';
 
 /**
  * Maps totals from rows to corresponding program indicators.
  * @param {Array<Object>} programIndicators - An array of program indicator objects, where each object contains
- *                                             properties such as `id`, `name`, `disease`, `incidentStatus`, and `hazardType`.
+ *                                             properties such as `id`, `name`, `disease`, `incidentStatus`, `dataSource`.
  * @param {Array<Array<any>>} rows - An array of rows where each row is an array where the first element is an ID,
  *                                   and subsequent elements include a total value.
  * @returns {Array<Object>} An array of objects where each object contains the properties of a program indicator
@@ -43,8 +44,8 @@ function mapTotalInRowsToCorrespondingIndicator(programIndicators, rows) {
                 name: indicator.name,
                 disease: indicator.disease,
                 incidentStatus: indicator.incidentStatus,
-                hazardType: indicator.hazardType,
                 total: total ? parseFloat(total) : 0,
+                dataSource: indicator.dataSource,
             },
         ];
     });
@@ -64,7 +65,7 @@ function extractUniqueAndFilteredValuesNotAll(items, property) {
 
 /**
  * Filters and aggregates values from an array of objects based on a specified property.
- * @param {Array<Object>} items - An array of objects to process.
+ * @param {Array<Object>} rows - An array of objects to process.
  * @param {string} filterProperty - The property name to filter items by.
  * @param {Array<string>} allowedValues - An array of values to include in the results.
  * @returns {Object} An object where keys are the unique values of the filterProperty and values are the totals.
@@ -82,16 +83,13 @@ function getTotalsByProperty(rows, filterProperty, allowedValues) {
 }
 
 /**
- * Get totals value data in analyticsDataRows using programIndicators to clasify by incident status and inside by disease and hazard type.
+ * Get totals value data in analyticsDataRows using programIndicators to clasify by incident status and inside by disease.
  * @param {Array<Object>} programIndicators - An array of program indicator objects used to map totals.
  * @param {Array<Object>} analyticsDataRows - An array of analytics data rows containing total values.
  * @returns {Object} An object where each key is an incident status and its value is an object containing
- *                   totals for diseases and hazard types associated with that incident status.
+ *                   totals for diseases associated with that incident status.
  */
-function getDiseaseOrHazardTypeDataByIncidentStatus(
-    programIndicators,
-    analyticsDataRows
-) {
+function getDiseaseDataByIncidentStatus(programIndicators, analyticsDataRows) {
     const indicatorsWithTotals =
         mapTotalInRowsToCorrespondingIndicator(
             programIndicators,
@@ -108,11 +106,6 @@ function getDiseaseOrHazardTypeDataByIncidentStatus(
         'incidentStatus'
     );
 
-    const hazardTypes = extractUniqueAndFilteredValuesNotAll(
-        indicatorsWithTotals,
-        'hazardType'
-    );
-
     return incidentStatus.reduce((acc, status) => {
         const statusRows = indicatorsWithTotals.filter(
             row => row.incidentStatus === status
@@ -124,22 +117,40 @@ function getDiseaseOrHazardTypeDataByIncidentStatus(
             diseases
         );
 
-        const hazardTypeTotals = getTotalsByProperty(
-            statusRows,
-            'hazardType',
-            hazardTypes
-        );
-
         return {
             ...acc,
             [status]: {
                 diseases: diseaseTotals,
-                hazardTypes: hazardTypeTotals,
             },
         };
     }, {});
 }
 
+/**
+ * Get totals value data in analyticsDataRows using programIndicators to clasify by dataSource.
+ * @param {Array<Object>} programIndicators - An array of program indicator objects used to map totals.
+ * @param {Array<Object>} analyticsDataRows - An array of analytics data rows containing total values.
+ * @returns {Object} An object where each key is the displa label (dataSource/total name) and its value is the total count
+ */
+function getTotalsByDataSource(programIndicators, analyticsDataRows) {
+    const indicatorsWithTotals =
+        mapTotalInRowsToCorrespondingIndicator(
+            programIndicators,
+            analyticsDataRows
+        ) || [];
+
+    const total = indicatorsWithTotals.find(total => !total.dataSource);
+
+    const dataSources = extractUniqueAndFilteredValuesNotAll(
+        indicatorsWithTotals,
+        'dataSource'
+    );
+
+    return {
+        [total.name]: total.total,
+        ...getTotalsByProperty(indicatorsWithTotals, 'dataSource', dataSources),
+    };
+}
 /**
  * Epic that handles loading custom popup data for the Zebra module.
  * @param {Observable} action$ - The stream of actions from which to extract the relevant actions.
@@ -180,7 +191,6 @@ export const loadZebraCustomPopupData = action$ =>
                         : '';
 
                 if (
-                    popupType === 'DASHBOARD' &&
                     programIndicators?.length > 0 &&
                     orgUnits?.length > 0 &&
                     startDate &&
@@ -196,10 +206,16 @@ export const loadZebraCustomPopupData = action$ =>
                         analyticsRequest
                     );
 
-                    const data = getDiseaseOrHazardTypeDataByIncidentStatus(
-                        programIndicators,
-                        analyticsData.rows
-                    );
+                    const data =
+                        popupType === ZEBRA_PAGE.DASHBOARD
+                            ? getDiseaseDataByIncidentStatus(
+                                  programIndicators,
+                                  analyticsData.rows
+                              )
+                            : getTotalsByDataSource(
+                                  programIndicators,
+                                  analyticsData.rows
+                              );
 
                     return setZebraCustomPopupData({
                         data: data,

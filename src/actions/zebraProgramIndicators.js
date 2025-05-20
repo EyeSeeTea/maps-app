@@ -18,8 +18,8 @@ export const loadZebraProgramIndicators = dataStoreInfo => ({
  * @property {string} id - The ID of the program indicator.
  * @property {string} name - The name of the program indicator.
  * @property {string|null} disease - The name of the disease associated with the indicator.
- * @property {string|null} hazardType - The name of the hazardType associated with the indicator.
  * @property {string|null} incidentStatus - The name of the incidentStatus associated with the indicator.
+ * @property {string|null} dataSource - The data source associated with the indicator.
  */
 /**
  * Creates an action to set zebra program indicators.

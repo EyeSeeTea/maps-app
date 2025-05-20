@@ -44,6 +44,7 @@ import {
 } from '../../actions/zebraCustomOrgUnitsInLayer';
 
 import styles from './styles/App.module.css';
+import { ZEBRA_PAGE } from '../../constants/zebraPage';
 
 const App = ({
     removeBingBasemaps,
@@ -91,16 +92,26 @@ const App = ({
 
     useEffect(() => {
         const currentAppParam = getUrlParameter('currentApp');
+        const currentPageParam = getUrlParameter('currentPage');
+        const diseaseCodeParam = getUrlParameter('diseaseCode');
         const zebraNamespaceParam = getUrlParameter('zebraNamespace');
-        const dashboardDatastoreKeyParam = getUrlParameter(
-            'dashboardDatastoreKey'
+        const mapProgramIndicatorDatastoreParam = getUrlParameter(
+            'mapProgramIndicatorDatastoreKey'
         );
 
         if (currentAppParam === 'ZEBRA') {
-            if (zebraNamespaceParam && dashboardDatastoreKeyParam) {
+            const isValidUrlParams =
+                currentPageParam === ZEBRA_PAGE.DASHBOARD || diseaseCodeParam;
+            if (
+                zebraNamespaceParam &&
+                mapProgramIndicatorDatastoreParam &&
+                isValidUrlParams
+            ) {
                 loadZebraProgramIndicators({
                     zebraNamespace: zebraNamespaceParam,
-                    dashboardKey: dashboardDatastoreKeyParam,
+                    programIndicatorKey: mapProgramIndicatorDatastoreParam,
+                    page: currentPageParam,
+                    diseaseCode: diseaseCodeParam,
                 });
             } else {
                 setError(
