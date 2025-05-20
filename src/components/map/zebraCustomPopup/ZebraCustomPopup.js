@@ -5,6 +5,7 @@ import i18n from '@dhis2/d2-i18n';
 import { isEmpty } from 'lodash';
 
 import './styles/ZebraCustomPopup.css';
+import { ZEBRA_PAGE } from '../../../constants/zebraPage';
 
 /**
  * ZebraCustomPopup is a customized version of the Popup component
@@ -36,34 +37,56 @@ const ZebraCustomPopup = (props, context) => {
         return () => map.closePopup();
     }, []);
 
+    const popUpDataContent = useMemo(() => {
+        if (data && !isEmpty(data)) {
+            switch (popupType) {
+                case ZEBRA_PAGE.DASHBOARD:
+                    return (
+                        <div className="popup-data-content">
+                            {Object.keys(data).map(incidentStatus => {
+                                const { diseases } = data[incidentStatus];
+
+                                return (
+                                    <div
+                                        key={incidentStatus}
+                                        className="popup-data-incident-status-container"
+                                    >
+                                        <span className="popup-data-incident-status">
+                                            {incidentStatus}
+                                        </span>
+                                        {Object.keys(diseases).map(disease => (
+                                            <span
+                                                key={disease}
+                                                className="popup-data-incident-text"
+                                            >
+                                                {diseases[disease]} {disease}
+                                            </span>
+                                        ))}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    );
+                case ZEBRA_PAGE.EVENT_TRACKER:
+                    return (
+                        <div className="popup-data-content single-col">
+                            {Object.keys(data).map(dataSource => (
+                                <span
+                                    key={dataSource}
+                                    className="popup-data-incident-text"
+                                >
+                                    {dataSource}: {data[dataSource]}
+                                </span>
+                            ))}
+                        </div>
+                    );
+            }
+        }
+    }, []);
+
     return createPortal(
         <div className="popup-data-container">
-            {popupType === 'DASHBOARD' && data && !isEmpty(data) ? (
-                <div className="popup-data-content">
-                    {Object.keys(data).map(incidentStatus => {
-                        const { diseases } = data[incidentStatus];
-
-                        return (
-                            <div
-                                key={incidentStatus}
-                                className="popup-data-incident-status-container"
-                            >
-                                <span className="popup-data-incident-status">
-                                    {incidentStatus}
-                                </span>
-                                {Object.keys(diseases).map(disease => (
-                                    <span
-                                        key={disease}
-                                        className="popup-data-incident-text"
-                                    >
-                                        {diseases[disease]} {disease}
-                                    </span>
-                                ))}
-                            </div>
-                        );
-                    })}
-                </div>
-            ) : (
+            {popUpDataContent || (
                 <span className="popup-data-value">
                     {name}: {value}
                 </span>
@@ -91,7 +114,10 @@ ZebraCustomPopup.propTypes = {
     className: PropTypes.string,
     data: PropTypes.object,
     lastUpdatedDate: PropTypes.string,
-    popupType: PropTypes.oneOf(['DASHBOARD', 'EVENT_TRACKER']),
+    popupType: PropTypes.oneOf([
+        ZEBRA_PAGE.DASHBOARD,
+        ZEBRA_PAGE.EVENT_TRACKER,
+    ]),
     value: PropTypes.number,
     name: PropTypes.string,
 };

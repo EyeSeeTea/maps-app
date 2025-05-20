@@ -1,0 +1,4 @@
+export const ZEBRA_PAGE = {
+    EVENT_TRACKER: 'EVENT_TRACKER',
+    DASHBOARD: 'DASHBOARD',
+};
