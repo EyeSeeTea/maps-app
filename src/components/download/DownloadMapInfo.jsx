@@ -1,15 +1,16 @@
-import cx from 'classnames'
 import PropTypes from 'prop-types'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useDownloadLegend } from '../../hooks/useDownloadLegend.js'
+import OverviewMap from './OverviewMap.jsx'
 import { useWindowDimensions } from '../WindowDimensionsProvider.jsx'
 import DownloadLegend from './DownloadLegend.jsx'
-import OverviewMap from './OverviewMap.jsx'
 import styles from './styles/DownloadMapInfo.module.css'
 
 const DownloadMapInfo = ({ map, isSplitView }) => {
     const [resizeCount, setResizeCount] = useState(0)
     const { height } = useWindowDimensions()
+    const { downloadModeLegendOpen } = useDownloadLegend()
 
     const {
         showName,
@@ -31,7 +32,11 @@ const DownloadMapInfo = ({ map, isSplitView }) => {
 
     return (
         <div
-            className={cx(styles.downloadMapInfo)}
+            className={
+                downloadModeLegendOpen
+                    ? styles.downloadMapInfoLegend
+                    : styles.downloadMapInfo
+            }
             data-test="download-map-info"
         >
             <div>
