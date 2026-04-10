@@ -10,11 +10,12 @@ const DownloadMenubar = () => {
     const { downloadModeLegendOpen } = useDownloadLegend()
 
     useEffect(() => {
+        if (downloadModeLegendOpen) return
         setHeaderbarVisible(false)
         return () => {
             setHeaderbarVisible(true)
         }
-    }, [])
+    }, [downloadModeLegendOpen])
 
     return (
         <div
