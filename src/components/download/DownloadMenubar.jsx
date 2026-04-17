@@ -1,11 +1,14 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, IconChevronLeft24, colors } from '@dhis2/ui'
 import React, { useEffect } from 'react'
+import { useDownloadLegend } from '../../hooks/useDownloadLegend.js'
 import { closeDownloadMode } from '../../util/history.js'
 import { setHeaderbarVisible } from '../../util/setHeaderbarVisible.js'
 import styles from './styles/DownloadMenubar.module.css'
 
 const DownloadMenubar = () => {
+    const { downloadModeLegendOpen } = useDownloadLegend()
+
     useEffect(() => {
         setHeaderbarVisible(false)
         return () => {
@@ -14,7 +17,10 @@ const DownloadMenubar = () => {
     }, [])
 
     return (
-        <div className={styles.downloadModeMenu}>
+        <div
+            style={{ display: downloadModeLegendOpen ? 'none' : 'initial' }}
+            className={styles.downloadModeMenu}
+        >
             <Button onClick={closeDownloadMode}>
                 <IconChevronLeft24 color={colors.grey700} />
                 {i18n.t('Exit download mode')}
